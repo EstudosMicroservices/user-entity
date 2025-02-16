@@ -1,6 +1,6 @@
-package com.microservices.user.ports.inbound;
+package com.microservices.user.domain.ports.inbound;
 
-import com.microservices.user.domain.user.UserDto;
+import com.microservices.user.domain.dto.UserDto;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ public interface UserServicePort{
     UserDto findByEmail(String email);
     UserDto createUser(UserDto userDto);
     UserDto updateuser(UserDto userDto);
-    boolean deleteByEmail(String email);
+    void deleteByEmail(String email);
 }

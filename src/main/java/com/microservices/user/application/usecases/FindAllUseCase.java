@@ -1,6 +1,6 @@
 package com.microservices.user.application.usecases;
 
-import com.microservices.user.domain.user.UserDto;
+import com.microservices.user.domain.dto.UserDto;
 
 import java.util.List;
 

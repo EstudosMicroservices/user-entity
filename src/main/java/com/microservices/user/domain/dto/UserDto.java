@@ -1,4 +1,4 @@
-package com.microservices.user.domain.user;
+package com.microservices.user.domain.dto;
 
 public record UserDto(
         String nomeCompleto,

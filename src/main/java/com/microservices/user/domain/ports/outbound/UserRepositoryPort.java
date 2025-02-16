@@ -1,6 +1,6 @@
-package com.microservices.user.ports.outbound;
+package com.microservices.user.domain.ports.outbound;
 
-import com.microservices.user.domain.user.User;
+import com.microservices.user.domain.model.User;
 
 import java.util.List;
 import java.util.Optional;

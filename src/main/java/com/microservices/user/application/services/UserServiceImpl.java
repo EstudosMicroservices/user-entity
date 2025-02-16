@@ -1,14 +1,13 @@
 package com.microservices.user.application.services;
 
 import com.microservices.user.application.services.usecasesimpl.*;
-import com.microservices.user.domain.user.UserDto;
-import com.microservices.user.ports.inbound.UserServicePort;
+import com.microservices.user.domain.dto.UserDto;
+import com.microservices.user.domain.ports.inbound.UserServicePort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserServicePort {
 
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserServicePort {
     }
 
     @Override
-    public boolean deleteByEmail(String email) {
-        return deleteByEmailUseCase.deleteUser(email);
+    public void deleteByEmail(String email) {
+        deleteByEmailUseCase.deleteUser(email);
     }
 }

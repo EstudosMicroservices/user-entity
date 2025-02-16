@@ -1,7 +1,7 @@
 package com.microservices.user.infrastructure.mappers;
 
-import com.microservices.user.domain.user.User;
-import com.microservices.user.domain.user.UserDto;
+import com.microservices.user.domain.model.User;
+import com.microservices.user.domain.dto.UserDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;

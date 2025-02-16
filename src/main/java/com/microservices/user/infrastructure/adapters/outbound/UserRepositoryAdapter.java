@@ -1,8 +1,8 @@
 package com.microservices.user.infrastructure.adapters.outbound;
 
-import com.microservices.user.domain.user.User;
+import com.microservices.user.domain.model.User;
 import com.microservices.user.infrastructure.persistence.UserRepository;
-import com.microservices.user.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

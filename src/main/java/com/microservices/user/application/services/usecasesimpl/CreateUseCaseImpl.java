@@ -1,11 +1,11 @@
 package com.microservices.user.application.services.usecasesimpl;
 
 import com.microservices.user.application.usecases.CreateUseCase;
-import com.microservices.user.domain.user.User;
-import com.microservices.user.domain.user.UserDto;
+import com.microservices.user.domain.model.User;
+import com.microservices.user.domain.dto.UserDto;
 import com.microservices.user.infrastructure.exceptions.UserAlreadyExistsException;
 import com.microservices.user.infrastructure.mappers.UserMapper;
-import com.microservices.user.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

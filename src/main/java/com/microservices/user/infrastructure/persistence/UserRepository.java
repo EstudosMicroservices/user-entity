@@ -1,6 +1,6 @@
 package com.microservices.user.infrastructure.persistence;
 
-import com.microservices.user.domain.user.User;
+import com.microservices.user.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

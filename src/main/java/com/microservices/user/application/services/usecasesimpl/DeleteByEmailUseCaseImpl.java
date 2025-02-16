@@ -1,9 +1,9 @@
 package com.microservices.user.application.services.usecasesimpl;
 
 import com.microservices.user.application.usecases.DeleteByEmailUseCase;
-import com.microservices.user.domain.user.User;
+import com.microservices.user.domain.model.User;
 import com.microservices.user.infrastructure.exceptions.UserNotFoundException;
-import com.microservices.user.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
