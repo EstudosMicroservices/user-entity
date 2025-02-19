@@ -1,4 +1,4 @@
-package com.microservices.user.infrastructure.exceptions;
+package com.microservices.user.infrastructure.exceptions.user;
 
 public class UserNotFoundException extends RuntimeException {
 

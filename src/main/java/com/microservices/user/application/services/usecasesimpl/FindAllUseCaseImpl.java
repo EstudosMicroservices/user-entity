@@ -3,7 +3,7 @@ package com.microservices.user.application.services.usecasesimpl;
 import com.microservices.user.application.usecases.FindAllUseCase;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.dto.UserDto;
-import com.microservices.user.infrastructure.exceptions.UserNotFoundException;
+import com.microservices.user.infrastructure.exceptions.user.UserNotFoundException;
 import com.microservices.user.infrastructure.mappers.UserMapper;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;

@@ -9,6 +9,6 @@ public interface UserServicePort{
     List<UserDto> findAll();
     UserDto findByEmail(String email);
     UserDto createUser(UserDto userDto);
-    UserDto updateuser(UserDto userDto);
-    void deleteByEmail(String email);
+    UserDto updateuser(String id, UserDto userDto);
+    void deleteUser(String id);
 }

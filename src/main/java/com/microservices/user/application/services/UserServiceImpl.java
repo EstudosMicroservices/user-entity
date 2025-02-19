@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserServicePort {
     private final CreateUseCaseImpl createUseCase;
     private final FindByEmailUseCaseImpl findByEmailUseCase;
     private final FindAllUseCaseImpl findAllUseCase;
-    private final DeleteByEmailUseCaseImpl deleteByEmailUseCase;
+    private final DeleteByIdUseCaseImpl deleteByIdUseCase;
     private final UpdateUseCaseImpl updateUseCase;
 
     @Override
@@ -33,12 +33,12 @@ public class UserServiceImpl implements UserServicePort {
     }
 
     @Override
-    public UserDto updateuser(UserDto userDto) {
-        return updateUseCase.updateUser(userDto);
+    public UserDto updateuser(String id, UserDto userDto) {
+        return updateUseCase.updateUser(id, userDto);
     }
 
     @Override
-    public void deleteByEmail(String email) {
-        deleteByEmailUseCase.deleteUser(email);
+    public void deleteUser(String id) {
+        deleteByIdUseCase.deleteUser(id);
     }
 }

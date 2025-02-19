@@ -1,20 +1,20 @@
 package com.microservices.user.application.services.usecasesimpl;
 
-import com.microservices.user.application.usecases.DeleteByEmailUseCase;
+import com.microservices.user.application.usecases.DeleteByIdUseCase;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.infrastructure.exceptions.UserNotFoundException;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
+import com.microservices.user.infrastructure.exceptions.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class DeleteByEmailUseCaseImpl implements DeleteByEmailUseCase {
+public class DeleteByIdUseCaseImpl implements DeleteByIdUseCase {
 
     private final UserRepositoryPort userRepositoryPort;
 
     @Override
-    public void deleteUser(String email) {
+    public void deleteUser(String id) {
 //  Checar e implementar
-        User existingUser = userRepositoryPort.findUserByEmail(email).orElseThrow(() ->
+        User existingUser = userRepositoryPort.findById(id).orElseThrow(() ->
                 new UserNotFoundException("User's email not found."));
         userRepositoryPort.deleteUser(existingUser.getId());
     }
