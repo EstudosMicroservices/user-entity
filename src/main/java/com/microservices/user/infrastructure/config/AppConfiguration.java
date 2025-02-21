@@ -1,9 +1,9 @@
 package com.microservices.user.infrastructure.config;
 
 import com.microservices.user.application.services.UserServiceImpl;
+import com.microservices.user.application.services.ports.inbound.UserServicePort;
+import com.microservices.user.application.services.ports.outbound.UserRepositoryPort;
 import com.microservices.user.application.services.usecasesimpl.*;
-import com.microservices.user.domain.ports.inbound.UserServicePort;
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import com.microservices.user.infrastructure.adapters.outbound.UserRepositoryAdapter;
 import com.microservices.user.infrastructure.mappers.UserMapper;
 import com.microservices.user.infrastructure.persistence.UserRepository;

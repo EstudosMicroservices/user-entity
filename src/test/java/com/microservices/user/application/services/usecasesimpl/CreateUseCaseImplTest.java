@@ -1,8 +1,8 @@
 package com.microservices.user.application.services.usecasesimpl;
 
+import com.microservices.user.application.services.ports.outbound.UserRepositoryPort;
 import com.microservices.user.domain.dto.UserDto;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import com.microservices.user.infrastructure.exceptions.user.UserAlreadyExistsException;
 import com.microservices.user.infrastructure.mappers.UserMapper;
 import com.microservices.user.utils.UserTestFactory;

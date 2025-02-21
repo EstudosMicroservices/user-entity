@@ -1,8 +1,8 @@
 package com.microservices.user.application.services;
 
+import com.microservices.user.application.services.ports.inbound.UserServicePort;
 import com.microservices.user.application.services.usecasesimpl.*;
 import com.microservices.user.domain.dto.UserDto;
-import com.microservices.user.domain.ports.inbound.UserServicePort;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
