@@ -1,7 +1,7 @@
 package com.microservices.user.infrastructure.adapters.inbound;
 
-import com.microservices.user.application.services.UserServiceImpl;
 import com.microservices.user.domain.dto.UserDto;
+import com.microservices.user.domain.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

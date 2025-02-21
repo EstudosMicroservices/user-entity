@@ -1,4 +1,4 @@
-package com.microservices.user.application.services;
+package com.microservices.user.domain.services;
 
 import com.microservices.user.application.services.usecasesimpl.*;
 import com.microservices.user.domain.dto.UserDto;

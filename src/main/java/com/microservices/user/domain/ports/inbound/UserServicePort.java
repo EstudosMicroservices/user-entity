@@ -1,4 +1,4 @@
-package com.microservices.user.application.services.ports.inbound;
+package com.microservices.user.domain.ports.inbound;
 
 import com.microservices.user.domain.dto.UserDto;
 
