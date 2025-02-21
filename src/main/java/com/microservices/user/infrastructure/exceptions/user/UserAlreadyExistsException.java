@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public class UserAlreadyExistsException extends BaseException {
 
-    public UserAlreadyExistsException(HttpStatus httpStatus, String detail) {
-        super(httpStatus, "User not found!", detail);
+    public UserAlreadyExistsException(String detail) {
+        super(HttpStatus.CONFLICT, "User not found!", detail);
     }
 }

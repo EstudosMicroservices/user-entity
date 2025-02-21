@@ -1,4 +1,4 @@
-package com.microservices.user.application.usecases;
+package com.microservices.user.application.services.usecases;
 
 
 public interface DeleteByIdUseCase {

@@ -11,34 +11,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserServicePort {
 
-    private final CreateUseCaseImpl createUseCase;
-    private final FindByEmailUseCaseImpl findByEmailUseCase;
-    private final FindAllUseCaseImpl findAllUseCase;
-    private final DeleteByIdUseCaseImpl deleteByIdUseCase;
-    private final UpdateUseCaseImpl updateUseCase;
+    private final CreateUseCaseImpl createUseCaseImpl;
+    private final FindByEmailUseCaseImpl findByEmailUseCaseImpl;
+    private final FindAllUseCaseImpl findAllUseCaseImpl;
+    private final DeleteByIdUseCaseImpl deleteByIdUseCaseImpl;
+    private final UpdateUseCaseImpl updateUseCaseImpl;
 
     @Override
     public List<UserDto> findAll() {
-        return findAllUseCase.findAll();
+        return findAllUseCaseImpl.findAll();
     }
 
     @Override
     public UserDto findByEmail(String email) {
-        return findByEmailUseCase.findByEmail(email);
+        return findByEmailUseCaseImpl.findByEmail(email);
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        return createUseCase.createUser(userDto);
+        return createUseCaseImpl.createUser(userDto);
     }
 
     @Override
     public UserDto updateuser(String id, UserDto userDto) {
-        return updateUseCase.updateUser(id, userDto);
+        return updateUseCaseImpl.updateUser(id, userDto);
     }
 
     @Override
     public void deleteUser(String id) {
-        deleteByIdUseCase.deleteUser(id);
+        deleteByIdUseCaseImpl.deleteUser(id);
     }
 }

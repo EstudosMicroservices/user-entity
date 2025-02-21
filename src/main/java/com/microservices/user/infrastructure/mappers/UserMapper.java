@@ -10,7 +10,6 @@ import org.mapstruct.Named;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -39,7 +38,7 @@ public interface UserMapper {
     @Named("localDateToString")
     static String localDateToString(LocalDate date) {
         if (date == null) {
-            throw new DateMappingException("LocalDate is empty or null.");
+            throw new DateMappingException("LocalDate is null!");
         }
         return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
@@ -47,19 +46,16 @@ public interface UserMapper {
     @Named("stringToLocalDate")
     static LocalDate stringToLocalDate(String date) {
         if (date == null || date.isEmpty()) {
-            throw new DateMappingException("String of date is empty or null.");
+            throw new DateMappingException("String of date is empty or null!");
         }
-        try {
-            return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid format to date: " + date);
-        }
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
     }
 
     @Named("stringListToLocalDateList")
     static List<LocalDate> stringListToLocalDateList(List<String> dates) {
         if (dates == null || dates.isEmpty()) {
-            throw new DateMappingException("List of date is empty or null.");
+            throw new DateMappingException("List of date is empty or null!");
         }
         return dates.stream()
                 .map(UserMapper::stringToLocalDate)

@@ -8,12 +8,6 @@ import java.time.LocalDate;
 
 public class ValidateDataNascimentoImpl implements ConstraintValidator<ValidateDataNascimento, LocalDate> {
 
-    @Override
-    public void initialize(ValidateDataNascimento constraintAnnotation) {
-//  Although there's no need, neither for me, nor for this class to use this method
-//  I'll leave it empty 'cause if I need it to initialize anything it'll be kinda handy.
-//  Sonar forced me to say something about this...
-    }
 
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
