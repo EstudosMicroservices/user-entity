@@ -3,10 +3,8 @@ services:
     image: mysql:8.0
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: ${PASS_BD}
       MYSQL_DATABASE: user
-      MYSQL_USER: ${USER_BD}
-      MYSQL_PASSWORD: ${PASS_BD}
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - "3307:3306"
     volumes:
