@@ -1,8 +1,8 @@
 package com.microservices.user.infrastructure.adapters.outbound;
 
+import com.microservices.user.application.mappers.UserMapper;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
-import com.microservices.user.infrastructure.mappers.UserMapper;
 import com.microservices.user.infrastructure.persistence.UserEntity;
 import com.microservices.user.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;

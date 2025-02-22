@@ -1,7 +1,7 @@
 package com.microservices.user.infrastructure.adapters.inbound;
 
-import com.microservices.user.application.services.dto.UserDto;
-import com.microservices.user.domain.services.UserServiceImpl;
+import com.microservices.user.application.dto.UserDto;
+import com.microservices.user.application.services.UserServiceImpl;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.microservices.user.domain.ports.inbound;
 
-import com.microservices.user.application.services.dto.UserDto;
+import com.microservices.user.application.dto.UserDto;
 
 import java.util.List;
 

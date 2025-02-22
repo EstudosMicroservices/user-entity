@@ -1,11 +1,11 @@
 package com.microservices.user.infrastructure.config;
 
-import com.microservices.user.application.services.usecasesimpl.*;
+import com.microservices.user.application.mappers.UserMapper;
+import com.microservices.user.application.services.UserServiceImpl;
+import com.microservices.user.application.usecasesimpl.*;
 import com.microservices.user.domain.ports.inbound.UserServicePort;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
-import com.microservices.user.domain.services.UserServiceImpl;
 import com.microservices.user.infrastructure.adapters.outbound.UserRepositoryAdapter;
-import com.microservices.user.infrastructure.mappers.UserMapper;
 import com.microservices.user.infrastructure.persistence.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +54,6 @@ public class AppConfiguration {
     public UserRepositoryAdapter userRepositoryAdapter(UserRepository userRepository, UserMapper userMapper){
         return new UserRepositoryAdapter(userRepository, userMapper);
     }
-
 
     @Bean
     public UserRepositoryPort userRepositoryPort(UserRepositoryAdapter userRepositoryAdapter){
