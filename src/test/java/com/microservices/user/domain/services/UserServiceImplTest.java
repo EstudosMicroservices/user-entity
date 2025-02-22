@@ -1,7 +1,7 @@
 package com.microservices.user.domain.services;
 
+import com.microservices.user.application.services.dto.UserDto;
 import com.microservices.user.application.services.usecasesimpl.*;
-import com.microservices.user.domain.dto.UserDto;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

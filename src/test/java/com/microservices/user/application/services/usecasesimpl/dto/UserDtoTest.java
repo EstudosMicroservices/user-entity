@@ -1,5 +1,6 @@
-package com.microservices.user.domain.dto;
+package com.microservices.user.application.services.usecasesimpl.dto;
 
+import com.microservices.user.application.services.dto.UserDto;
 import org.junit.Test;
 
 import java.time.LocalDate;

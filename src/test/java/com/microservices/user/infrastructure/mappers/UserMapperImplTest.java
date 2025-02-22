@@ -1,6 +1,6 @@
 package com.microservices.user.infrastructure.mappers;
 
-import com.microservices.user.domain.dto.UserDto;
+import com.microservices.user.application.services.dto.UserDto;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.infrastructure.persistence.UserEntity;
 import com.microservices.user.utils.UserTestFactory;

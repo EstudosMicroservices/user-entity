@@ -1,4 +1,4 @@
-package com.microservices.user.infrastructure.exceptions;
+package com.microservices.user.domain.exceptions;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

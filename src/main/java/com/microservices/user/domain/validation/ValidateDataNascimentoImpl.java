@@ -1,6 +1,7 @@
-package com.microservices.user.domain.model.validation;
+package com.microservices.user.domain.validation;
 
-import com.microservices.user.infrastructure.exceptions.user.DateValidationException;
+import com.microservices.user.application.services.validation.ValidateDataNascimento;
+import com.microservices.user.domain.exceptions.user.DateValidationException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

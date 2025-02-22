@@ -1,6 +1,7 @@
 package com.microservices.user.domain.model.validation;
 
-import com.microservices.user.infrastructure.exceptions.user.DateValidationException;
+import com.microservices.user.domain.exceptions.user.DateValidationException;
+import com.microservices.user.domain.validation.ValidateDataNascimentoImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

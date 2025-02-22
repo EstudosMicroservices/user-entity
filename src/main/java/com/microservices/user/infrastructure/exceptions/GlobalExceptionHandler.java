@@ -1,5 +1,6 @@
 package com.microservices.user.infrastructure.exceptions;
 
+import com.microservices.user.domain.exceptions.BaseException;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

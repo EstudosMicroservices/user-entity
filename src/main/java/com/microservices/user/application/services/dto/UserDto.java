@@ -1,7 +1,7 @@
-package com.microservices.user.domain.dto;
+package com.microservices.user.application.services.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.microservices.user.domain.model.validation.ValidateDataNascimento;
+import com.microservices.user.application.services.validation.ValidateDataNascimento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

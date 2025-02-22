@@ -1,6 +1,6 @@
 package com.microservices.user.infrastructure.exceptions.mapping;
 
-import com.microservices.user.infrastructure.exceptions.BaseException;
+import com.microservices.user.domain.exceptions.BaseException;
 import org.springframework.http.HttpStatus;
 
 public class DateMappingException extends BaseException {

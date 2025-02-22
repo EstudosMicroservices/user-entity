@@ -1,8 +1,9 @@
-package com.microservices.user.application.services.usecasesimpl;
+package com.microservices.user.application.services.usecasesimpl.usecaseimpl;
 
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
+import com.microservices.user.application.services.usecasesimpl.DeleteByIdUseCaseImpl;
+import com.microservices.user.domain.exceptions.user.UserNotFoundException;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.infrastructure.exceptions.user.UserNotFoundException;
+import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
