@@ -57,44 +57,6 @@ class UserMapperImplTest {
         assertNull(nullResult);
     }
 
-    @Test
-    void toUserWithId() {
-        String id = "1";
-
-        User result = userMapper.toUserWithId(id, userDto);
-
-        assertNotNull(result);
-        assertThat(result.getEmail()).isEqualTo(userDto.email());
-        assertThat(result.getNomeCompleto()).isEqualTo(userDto.nomeCompleto());
-
-
-    }
-
-    @Test
-    void idAndDtoParameterNullInToUserWithIdTest() {
-
-        User nullResult = userMapper.toUserWithId(null, null);
-        assertNull(nullResult);
-    }
-
-    @Test
-    void onlyIdParameterNullInToUserWithIdTest() {
-
-        User idNullResult = userMapper.toUserWithId(null, userDto);
-        assertNotNull(idNullResult);
-        assertEquals(idNullResult.getEmail(), userDto.email());
-        assertEquals(idNullResult.getNomeCompleto(), userDto.nomeCompleto());
-
-    }
-
-    @Test
-    void onlyDtoParameterNullInToUserWithIdTest() {
-        String id = "1";
-
-        User dtoNullResult = userMapper.toUserWithId(id, null);
-        assertNotNull(dtoNullResult);
-        assertEquals(id, dtoNullResult.getId());
-    }
 
     @Test
     void listUserToListDtoTest(){

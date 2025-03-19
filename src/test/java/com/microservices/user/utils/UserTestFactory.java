@@ -24,7 +24,9 @@ public class UserTestFactory {
 
     public static UserDto createUserDto(){
         LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
-        return new UserDto("Nome Teste",
+        return new UserDto(
+                "1",
+                "Nome Teste",
                 "teste@teste.com",
                 "Senha Teste",
                 dataNascimento,

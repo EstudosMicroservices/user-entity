@@ -12,6 +12,7 @@ import java.util.List;
 public class UserServiceImpl implements UserServicePort {
 
     private final CreateUseCaseImpl createUseCaseImpl;
+    private final FindByIdUseCaseImpl findByIdUseCaseImpl;
     private final FindByEmailUseCaseImpl findByEmailUseCaseImpl;
     private final FindAllUseCaseImpl findAllUseCaseImpl;
     private final DeleteByIdUseCaseImpl deleteByIdUseCaseImpl;
@@ -20,6 +21,11 @@ public class UserServiceImpl implements UserServicePort {
     @Override
     public List<UserDto> findAll() {
         return findAllUseCaseImpl.findAll();
+    }
+
+    @Override
+    public UserDto findById(String id) {
+        return findByIdUseCaseImpl.findById(id);
     }
 
     @Override

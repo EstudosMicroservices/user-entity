@@ -48,6 +48,18 @@ class UserControllerTest {
         assertEquals(HttpStatus.OK, result.getStatusCode());
         verify(userServiceImpl).findAll();
     }
+    @Test
+    void findUserByIdTest(){
+        when(userServiceImpl.findById(userDto.id())).thenReturn(userDto);
+
+        ResponseEntity<UserDto> result = userController.findById(userDto.id());
+
+        assertNotNull(result.getBody());
+        assertThat(result.getBody()).isEqualTo(userDto);
+        assertThat(result.getBody().id()).isEqualTo(userDto.id());
+        assertThat(result.getBody().email()).isEqualTo(userDto.email());
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        verify(userServiceImpl).findById(userDto.id());    }
 
     @Test
     void findUserByEmailTest(){

@@ -9,6 +9,8 @@ import com.microservices.user.infrastructure.adapters.outbound.UserRepositoryAda
 import com.microservices.user.infrastructure.persistence.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class AppConfiguration {
@@ -16,19 +18,24 @@ public class AppConfiguration {
     @Bean
     public UserServiceImpl userService(
             CreateUseCaseImpl createUseCase,
+            FindByIdUseCaseImpl findByIdUseCase,
             FindByEmailUseCaseImpl findByEmailUseCase,
             FindAllUseCaseImpl findAllUseCase,
             DeleteByIdUseCaseImpl deleteByIdUseCase,
             UpdateUseCaseImpl updateUseCase
     ) {
         return new UserServiceImpl(
-                createUseCase, findByEmailUseCase, findAllUseCase, deleteByIdUseCase, updateUseCase
+                createUseCase, findByIdUseCase, findByEmailUseCase, findAllUseCase, deleteByIdUseCase, updateUseCase
         );
     }
 
     @Bean
-    public CreateUseCaseImpl createUseCase(UserRepositoryPort userRepositoryPort, UserMapper userMapper) {
-        return new CreateUseCaseImpl(userRepositoryPort, userMapper);
+    public CreateUseCaseImpl createUseCase(UserRepositoryPort userRepositoryPort, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+        return new CreateUseCaseImpl(userRepositoryPort, userMapper, passwordEncoder);
+    }
+    @Bean
+    public FindByIdUseCaseImpl findByIdUseCase(UserRepositoryPort userRepositoryPort, UserMapper userMapper){
+        return new FindByIdUseCaseImpl(userRepositoryPort, userMapper);
     }
 
     @Bean
@@ -63,5 +70,10 @@ public class AppConfiguration {
     @Bean
     public UserServicePort userServicePort(UserServiceImpl userServicesImpl){
         return userServicesImpl;
+    }
+
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
 }

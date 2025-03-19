@@ -9,6 +9,8 @@ import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 public record UserDto(
+        @NotBlank(message = "This field cannot be null or blank!")
+        String id,
 
         @NotBlank(message = "This field cannot be null or blank!")
         @Pattern(regexp = "^[a-zA-Z ]{1,100}$", message = "This field must contain only letters and space.")

@@ -19,10 +19,6 @@ public interface UserMapper {
     @Mapping(target = "dataNascimento", source = "dataNascimento", qualifiedByName = "localDateToString")
     User toUser(UserDto userDto);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "userDto.dataNascimento", target = "dataNascimento", qualifiedByName = "localDateToString")
-    User toUserWithId(String id, UserDto userDto);
-
     @Mapping(source = "dataNascimento", target = "dataNascimento", qualifiedByName = "stringToLocalDate")
     UserDto toDto(User user);
 

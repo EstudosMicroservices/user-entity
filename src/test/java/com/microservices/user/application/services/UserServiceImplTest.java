@@ -1,4 +1,4 @@
-package com.microservices.user.domain.services;
+package com.microservices.user.application.services;
 
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.services.UserServiceImpl;
@@ -22,6 +22,9 @@ class UserServiceImplTest {
 
     @Mock
     private CreateUseCaseImpl createUseCaseImpl;
+
+    @Mock
+    private FindByIdUseCaseImpl findByIdUseCaseImpl;
 
     @Mock
     private FindByEmailUseCaseImpl findByEmailUseCaseImpl;
@@ -57,6 +60,19 @@ class UserServiceImplTest {
         assertEquals(1, result.size());
         assertEquals(userDto.email(), result.getFirst().email());
         verify(findAllUseCaseImpl).findAll();
+    }
+
+    @Test
+    void findByIdTest(){
+
+        when(findByIdUseCaseImpl.findById(userDto.id())).thenReturn(userDto);
+
+        UserDto result = userServiceImpl.findById(userDto.id());
+
+        assertNotNull(result);
+        assertEquals(result.id(), userDto.id());
+
+        verify(findByIdUseCaseImpl).findById(userDto.id());
     }
 
     @Test
