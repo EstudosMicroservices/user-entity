@@ -9,11 +9,25 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-    networks:
-      - mysql_network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  app:
+    build: .
+    depends_on:
+      mysql:
+        condition: service_healthy
+    container_name: user-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/user
+      SPRING_DATASOURCE_USER: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8081:8080"
 
 volumes:
   mysql_data:
-
-networks:
-  mysql_network:
