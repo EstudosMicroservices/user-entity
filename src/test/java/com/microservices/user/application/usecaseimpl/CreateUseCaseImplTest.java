@@ -14,6 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
@@ -31,17 +32,22 @@ class CreateUseCaseImplTest {
     @Mock
     private UserMapper userMapper;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private CreateUseCaseImpl createUseCaseImpl;
 
     private User user;
     private UserDto userDto;
+    private UserDto userDtoEncoded;
     private String userEmail;
 
     @BeforeEach
     void setup(){
         this.user = UserTestFactory.createUser();
         this.userDto = UserTestFactory.createUserDto();
+        this.userDtoEncoded = UserTestFactory.createUserDtoEncoded();
         this.userEmail = user.getEmail();
     }
 
@@ -61,6 +67,14 @@ class CreateUseCaseImplTest {
         verify(userMapper, times(1)).toDto(user);
         assertEquals(userDto.email(), userDtoCaptor.getValue().email());
         assertEquals(userDto.email(), createdUser.email());
+        when(passwordEncoder.encode(userDto.senha())).thenReturn("Senha Teste Encoded");
+
+        UserDto capturedUser = userDtoCaptor.getValue();
+
+
+        assertEquals("Senha Teste Encoded", userDtoEncoded.senha());
+        assertEquals(userDto.email(), createdUser.email());
+
     }
 
     @Test
