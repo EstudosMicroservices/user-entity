@@ -3,11 +3,13 @@ package com.microservices.user.application.usecasesimpl;
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.application.mappers.UserMapper;
-import com.microservices.user.application.usecases.UpdateUseCase;
 import com.microservices.user.domain.model.User;
+import com.microservices.user.domain.ports.inbound.UpdateUseCase;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class UpdateUseCaseImpl implements UpdateUseCase {
 
@@ -15,13 +17,9 @@ public class UpdateUseCaseImpl implements UpdateUseCase {
     private final UserMapper userMapper;
 
     @Override
-    public UserDto updateUser(String id, UserDto userDto) {
-        userRepositoryPort.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User's email not found!"));
-
-        User newUser = userMapper.toUser(userDto);
-        User savedUser = userRepositoryPort.updateUser(newUser);
-
-        return userMapper.toDto(savedUser);
+    public UserDto updateUser(UserDto userDto) {
+        User user = userRepositoryPort.findById(userDto.id()).orElseThrow(() ->
+                new UserNotFoundException("User's id not found!"));
+        return userMapper.toDto(userRepositoryPort.updateUser(user));
     }
 }

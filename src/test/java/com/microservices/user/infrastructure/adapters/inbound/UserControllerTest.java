@@ -1,7 +1,7 @@
 package com.microservices.user.infrastructure.adapters.inbound;
 
 import com.microservices.user.application.dto.UserDto;
-import com.microservices.user.application.services.UserServiceImpl;
+import com.microservices.user.domain.ports.inbound.*;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,22 @@ import static org.mockito.Mockito.*;
 class UserControllerTest {
 
     @Mock
-    private UserServiceImpl userServiceImpl;
+    private FindAllUseCase findAllUseCase;
+
+    @Mock
+    private FindByIdUseCase findByIdUseCase;
+
+    @Mock
+    private FindByEmailUseCase findByEmailUseCase;
+
+    @Mock
+    private CreateUseCase createUseCase;
+
+    @Mock
+    private UpdateUseCase updateUseCase;
+
+    @Mock
+    private DeleteByIdUseCase deleteByIdUseCase;
 
     @InjectMocks
     private UserController userController;
@@ -38,7 +53,7 @@ class UserControllerTest {
 
     @Test
     void findAllTest(){
-        when(userServiceImpl.findAll()).thenReturn(List.of(userDto));
+        when(findAllUseCase.findAll()).thenReturn(List.of(userDto));
 
         ResponseEntity<List<UserDto>> result = userController.findAll();
 
@@ -46,11 +61,11 @@ class UserControllerTest {
         assertThat(result.getBody()).hasSize(1);
         assertThat(result.getBody().getFirst().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(userServiceImpl).findAll();
+        verify(findAllUseCase).findAll();
     }
     @Test
     void findUserByIdTest(){
-        when(userServiceImpl.findById(userDto.id())).thenReturn(userDto);
+        when(findByIdUseCase.findById(userDto.id())).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findById(userDto.id());
 
@@ -59,11 +74,11 @@ class UserControllerTest {
         assertThat(result.getBody().id()).isEqualTo(userDto.id());
         assertThat(result.getBody().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(userServiceImpl).findById(userDto.id());    }
+        verify(findByIdUseCase).findById(userDto.id());    }
 
     @Test
     void findUserByEmailTest(){
-        when(userServiceImpl.findByEmail(userDto.email())).thenReturn(userDto);
+        when(findByEmailUseCase.findByEmail(userDto.email())).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findByEmail(userDto.email());
 
@@ -71,12 +86,12 @@ class UserControllerTest {
         assertThat(result.getBody()).isEqualTo(userDto);
         assertThat(result.getBody().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(userServiceImpl).findByEmail(userDto.email());
+        verify(findByEmailUseCase).findByEmail(userDto.email());
     }
 
     @Test
     void createUserTest(){
-        when(userServiceImpl.createUser(userDto)).thenReturn(userDto);
+        when(createUseCase.createUser(userDto)).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.create(userDto);
 
@@ -84,32 +99,32 @@ class UserControllerTest {
         assertThat(result.getBody()).isEqualTo(userDto);
         assertThat(result.getBody().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        verify(userServiceImpl).createUser(userDto);
+        verify(createUseCase).createUser(userDto);
     }
 
     @Test
     void updateUserTest(){
-        when(userServiceImpl.updateuser(userId, userDto)).thenReturn(userDto);
+        when(updateUseCase.updateUser(userDto)).thenReturn(userDto);
 
-        ResponseEntity<UserDto> result = userController.update(userId, userDto);
+        ResponseEntity<UserDto> result = userController.update(userDto);
 
         assertNotNull(result.getBody());
         assertThat(result.getBody()).isEqualTo(userDto);
         assertThat(result.getBody().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(userServiceImpl).updateuser(userId, userDto);
+        verify(updateUseCase).updateUser(userDto);
     }
 
     @Test
     void deleteUserTest(){
-        doNothing().when(userServiceImpl).deleteUser(userId);
+        doNothing().when(deleteByIdUseCase).deleteUser(userId);
 
         ResponseEntity<Void> result = userController.delete(userId);
 
         assertNull(result.getBody());
         assertNotNull(result.getStatusCode());
         assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
-        verify(userServiceImpl).deleteUser(userId);
+        verify(deleteByIdUseCase).deleteUser(userId);
     }
 
 }

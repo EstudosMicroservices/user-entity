@@ -1,6 +1,7 @@
 package com.microservices.user.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.microservices.user.application.validation.ValidateDataNascimento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 public record UserDto(
-        @NotBlank(message = "This field cannot be null or blank!")
+        @JsonIgnore
         String id,
 
         @NotBlank(message = "This field cannot be null or blank!")
@@ -21,6 +22,10 @@ public record UserDto(
         String email,
 
         @NotBlank(message = "This field cannot be null or blank!")
+        @Pattern(
+                regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+                message = "A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial."
+        )
         String senha,
 
         @NotNull(message = "'This field cannot be null or blank!")

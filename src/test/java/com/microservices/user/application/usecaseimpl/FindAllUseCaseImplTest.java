@@ -41,7 +41,7 @@ class FindAllUseCaseImplTest {
         this.user = UserTestFactory.createUser();
         this.user2 = UserTestFactory.createUser();
         this.userDto = UserTestFactory.createUserDto();
-        this.userDto2 = UserTestFactory.createUserDto();
+        this.userDto2 = UserTestFactory.createUserDtoTwo();
         this.user2.setId("2");
     }
 
@@ -51,11 +51,12 @@ class FindAllUseCaseImplTest {
         List<User> userList = List.of(user, user2);
         List<UserDto> userDtoList = List.of(userDto, userDto2);
 
-        when(userRepositoryPort.listUsers()).thenReturn(List.of(user, user2));
+        when(userRepositoryPort.listUsers()).thenReturn(userList);
         when(userMapper.toListDto(userList)).thenReturn(userDtoList);
 
         List<UserDto> listResult = findAllUseCaseImpl.findAll();
 
+        assertNotNull(listResult);
         assertThat(listResult).hasSize(2);
         assertThat(listResult.get(0).email()).isEqualTo("teste@teste.com");
         assertThat(listResult.get(1).email()).isEqualTo("teste@teste.com");

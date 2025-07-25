@@ -1,11 +1,12 @@
 package com.microservices.user.application.usecasesimpl;
 
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
-import com.microservices.user.application.usecases.DeleteByIdUseCase;
-import com.microservices.user.domain.model.User;
+import com.microservices.user.domain.ports.inbound.DeleteByIdUseCase;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class DeleteByIdUseCaseImpl implements DeleteByIdUseCase {
 
@@ -13,9 +14,9 @@ public class DeleteByIdUseCaseImpl implements DeleteByIdUseCase {
 
     @Override
     public void deleteUser(String id) {
-        User existingUser = userRepositoryPort.findById(id).orElseThrow(() ->
+        userRepositoryPort.findById(id).orElseThrow(() ->
                 new UserNotFoundException("User's email not found!"));
-        userRepositoryPort.deleteUser(existingUser.getId());
+        userRepositoryPort.deleteUser(id);
     }
 
 }

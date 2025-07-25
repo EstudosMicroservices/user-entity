@@ -41,13 +41,10 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testMapToProblemDetail_validHttpStatus() {
-        // Valid HTTP status code "200" corresponding to HttpStatus.OK
         BaseException validException = new BaseException("200", "Success", "Request was successful.");
 
-        // Act
         ProblemDetail problemDetail = globalExceptionHandler.mapToProblemDetail(validException);
 
-        // Assert
         assertEquals(HttpStatus.OK.value(), problemDetail.getStatus());
         assertEquals("Success", problemDetail.getTitle());
         assertEquals("Request was successful.", problemDetail.getDetail());
@@ -55,10 +52,8 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void testMapToProblemDetail_invalidHttpStatus() {
-        // Invalid HTTP status code "999"
         BaseException invalidException = new BaseException("999", "Unknown Status", "This status code is invalid.");
 
-        // Act & Assert: Assert that the AssertionError is thrown
         assertThrows(AssertionError.class, () -> {
             globalExceptionHandler.mapToProblemDetail(invalidException);
         });

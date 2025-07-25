@@ -44,7 +44,7 @@ class CreateUseCaseImplTest {
     private String userEmail;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.user = UserTestFactory.createUser();
         this.userDto = UserTestFactory.createUserDto();
         this.userDtoEncoded = UserTestFactory.createUserDtoEncoded();
@@ -68,8 +68,6 @@ class CreateUseCaseImplTest {
         assertEquals(userDto.email(), userDtoCaptor.getValue().email());
         assertEquals(userDto.email(), createdUser.email());
         when(passwordEncoder.encode(userDto.senha())).thenReturn("Senha Teste Encoded");
-
-        UserDto capturedUser = userDtoCaptor.getValue();
 
 
         assertEquals("Senha Teste Encoded", userDtoEncoded.senha());

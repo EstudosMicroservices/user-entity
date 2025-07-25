@@ -53,13 +53,12 @@ class UpdateUseCaseImplTest {
         when(userRepositoryPort.updateUser(user)).thenReturn(user);
         when(userMapper.toDto(user)).thenReturn(userDto);
 
-        UserDto result = updateUseCaseImpl.updateUser(userId, userDto);
+        UserDto result = updateUseCaseImpl.updateUser(userDto);
 
         assertThat(result).isNotNull();
         assertThat(result.email()).isEqualTo(userDto.email());
 
         verify(userRepositoryPort).findById(userId);
-        verify(userMapper).toUser(userDto);
         verify(userRepositoryPort).updateUser(user);
         verify(userMapper).toDto(user);
     }
@@ -70,9 +69,9 @@ class UpdateUseCaseImplTest {
         when(userRepositoryPort.findById(userId)).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
-                () -> updateUseCaseImpl.updateUser(userId, userDto));
+                () -> updateUseCaseImpl.updateUser(userDto));
 
-        assertThat(exception.getDetail()).isEqualTo("User's email not found!");
+        assertThat(exception.getDetail()).isEqualTo("User's id not found!");
         assertEquals(HttpStatus.NO_CONTENT.value(), Integer.parseInt(exception.getHttpStatusCode()));
 
         verify(userRepositoryPort).findById(userId);

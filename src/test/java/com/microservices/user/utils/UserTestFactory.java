@@ -37,6 +37,22 @@ public class UserTestFactory {
                 "Estado Teste"
                 );
     }
+
+    public static UserDto createUserDtoTwo(){
+        LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
+        return new UserDto(
+                "2",
+                "Nome Teste",
+                "teste@teste.com",
+                "Senha Teste",
+                dataNascimento,
+                "Rua Teste",
+                "Bairro Teste",
+                "Cidade Teste",
+                "Estado Teste"
+        );
+    }
+
     public static UserDto createUserDtoEncoded(){
         LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
         return new UserDto(
