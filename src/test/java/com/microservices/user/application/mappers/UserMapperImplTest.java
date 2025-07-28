@@ -4,21 +4,28 @@ import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.infrastructure.persistence.UserEntity;
 import com.microservices.user.utils.UserTestFactory;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {
+        UserMapperImpl.class
+})
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 class UserMapperImplTest {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     private User user;
     private UserDto userDto;
@@ -59,7 +66,7 @@ class UserMapperImplTest {
 
 
     @Test
-    void listUserToListDtoTest(){
+    void listUserToListDtoTest() {
 
         List<UserDto> result = userMapper.toListDto(List.of(user));
 
@@ -74,7 +81,7 @@ class UserMapperImplTest {
 
 
     @Test
-    void userToPersist(){
+    void userToPersist() {
 
         UserEntity result = userMapper.toPersist(user);
 
@@ -88,7 +95,7 @@ class UserMapperImplTest {
     }
 
     @Test
-    void persistToDomain(){
+    void persistToDomain() {
 
         User result = userMapper.toDomain(userEntity);
 
@@ -102,7 +109,7 @@ class UserMapperImplTest {
     }
 
     @Test
-    void listEntityToListDomainTest(){
+    void listEntityToListDomainTest() {
 
         List<User> result = userMapper.listEntityToListDomain(List.of(userEntity));
 

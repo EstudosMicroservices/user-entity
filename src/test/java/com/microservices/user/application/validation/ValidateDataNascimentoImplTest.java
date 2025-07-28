@@ -32,31 +32,30 @@ class ValidateDataNascimentoImplTest {
     }
 
     @Test
-    void isValidNullExceptionTest(){
+    void isValidNullExceptionTest() {
 
         DateValidationException exception = assertThrows(DateValidationException.class, () ->
                 validateDataNascimentoImpl.isValid(null, null));
 
         assertNotNull(exception);
-        assertEquals(HttpStatus.BAD_REQUEST.value(), Integer.parseInt(exception.getHttpStatusCode()));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getHttpStatusCode());
         assertEquals("Time validation error!", exception.getTitle());
         assertEquals("Date value is null!", exception.getDetail());
     }
 
     @Test
-    void isValidTimeTravellerExceptionTest(){
+    void isValidTimeTravellerExceptionTest() {
 
         LocalDate currentTime = LocalDate.now();
         LocalDate value = LocalDate.of(5000, 2, 3);
 
 
-
-        DateValidationException exception = assertThrows(DateValidationException.class,() ->
-            validateDataNascimentoImpl.isValid(value, null));
+        DateValidationException exception = assertThrows(DateValidationException.class, () ->
+                validateDataNascimentoImpl.isValid(value, null));
 
         assertNotNull(exception);
         assertThat(value.getYear()).isGreaterThan(currentTime.getYear());
-        assertEquals(HttpStatus.BAD_REQUEST.value(), Integer.parseInt(exception.getHttpStatusCode()));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getHttpStatusCode());
         assertEquals("Time validation error!", exception.getTitle());
         assertEquals("I don't think you're a time traveller.", exception.getDetail());
 

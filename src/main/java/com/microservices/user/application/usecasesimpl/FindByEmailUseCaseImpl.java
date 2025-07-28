@@ -3,11 +3,13 @@ package com.microservices.user.application.usecasesimpl;
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.application.mappers.UserMapper;
-import com.microservices.user.application.usecases.FindByEmailUseCase;
 import com.microservices.user.domain.model.User;
+import com.microservices.user.domain.ports.inbound.FindByEmailUseCase;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class FindByEmailUseCaseImpl implements FindByEmailUseCase {
 
@@ -16,8 +18,8 @@ public class FindByEmailUseCaseImpl implements FindByEmailUseCase {
 
     @Override
     public UserDto findByEmail(String email) {
-        User existingUser = userRepositoryPort.findUserByEmail(email).orElseThrow(() ->
+        User user = userRepositoryPort.findUserByEmail(email).orElseThrow(() ->
                 new UserNotFoundException("User's email not found!"));
-        return userMapper.toDto(existingUser);
+        return userMapper.toDto(user);
     }
 }
