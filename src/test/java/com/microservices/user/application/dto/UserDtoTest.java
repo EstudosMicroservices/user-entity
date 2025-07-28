@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserDtoTest {
 
     @Test
-    public void testFields(){
+    public void testFields() {
         LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
         UserDto userDto = new UserDto("1",
                 "Nome Teste",

@@ -1,4 +1,4 @@
-package com.microservices.user.application.usecaseimpl;
+package com.microservices.user.application.usecaseimpl.unit;
 
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
@@ -8,6 +8,7 @@ import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,7 +38,7 @@ class FindAllUseCaseImplTest {
     private UserDto userDto, userDto2;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.user = UserTestFactory.createUser();
         this.user2 = UserTestFactory.createUser();
         this.userDto = UserTestFactory.createUserDto();
@@ -46,7 +47,8 @@ class FindAllUseCaseImplTest {
     }
 
     @Test
-    void findAllUsersTest(){
+    @DisplayName("Unit: Find All Users")
+    void findAllUsersTest() {
 
         List<User> userList = List.of(user, user2);
         List<UserDto> userDtoList = List.of(userDto, userDto2);
@@ -67,7 +69,8 @@ class FindAllUseCaseImplTest {
     }
 
     @Test
-    void findAllUserExceptionTest(){
+    @DisplayName("Unit: 'Find ALl User' throws exception if returned list is empty.")
+    void findAllUserExceptionTest() {
 
         List<User> userList = List.of();
 
@@ -78,7 +81,7 @@ class FindAllUseCaseImplTest {
 
         assertNotNull(exception);
         assertThat(userList).isEmpty();
-        assertEquals(HttpStatus.NO_CONTENT.value(), Integer.parseInt(exception.getHttpStatusCode()));
+        assertEquals(HttpStatus.NO_CONTENT, exception.getHttpStatusCode());
         assertEquals("User's list is empty!", exception.getDetail());
 
         verify(userRepositoryPort).listUsers();

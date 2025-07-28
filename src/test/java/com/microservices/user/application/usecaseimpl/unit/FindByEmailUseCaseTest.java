@@ -1,4 +1,4 @@
-package com.microservices.user.application.usecaseimpl;
+package com.microservices.user.application.usecaseimpl.unit;
 
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
@@ -8,6 +8,7 @@ import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,7 +39,7 @@ class FindByEmailUseCaseTest {
     private String userEmail;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.user = UserTestFactory.createUser();
         this.userDto = UserTestFactory.createUserDto();
         this.userEmail = user.getEmail();
@@ -46,7 +47,8 @@ class FindByEmailUseCaseTest {
 
 
     @Test
-    void findUserByEmailTest(){
+    @DisplayName("Unit: Find User by Email")
+    void findUserByEmailTest() {
 
         when(userRepositoryPort.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
         when(userMapper.toDto(user)).thenReturn(userDto);
@@ -61,7 +63,8 @@ class FindByEmailUseCaseTest {
     }
 
     @Test
-    void findByUserEmailExceptionTest(){
+    @DisplayName("Unit: 'Find User by Email' throws exception if User's email isn't found.")
+    void findByUserEmailExceptionTest() {
 
         when(userRepositoryPort.findUserByEmail(userEmail)).thenReturn(Optional.empty());
 
@@ -69,7 +72,7 @@ class FindByEmailUseCaseTest {
                 () -> findByEmailUseCaseImpl.findByEmail(userEmail));
 
         assertNotNull(exception);
-        assertEquals(HttpStatus.NO_CONTENT.value(), Integer.parseInt(exception.getHttpStatusCode()));
+        assertEquals(HttpStatus.NO_CONTENT, exception.getHttpStatusCode());
         assertEquals("User not found!", exception.getTitle());
         assertEquals("User's email not found!", exception.getDetail());
 

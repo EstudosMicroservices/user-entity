@@ -1,4 +1,4 @@
-package com.microservices.user.application.usecaseimpl;
+package com.microservices.user.application.usecaseimpl.unit;
 
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserAlreadyExistsException;
@@ -8,6 +8,7 @@ import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -52,6 +53,7 @@ class CreateUseCaseImplTest {
     }
 
     @Test
+    @DisplayName("Unit: Create user")
     void createUserTest() {
         when(userRepositoryPort.findUserByEmail(anyString())).thenReturn(Optional.empty());
         when(userMapper.toUser(userDto)).thenReturn(user);
@@ -76,6 +78,7 @@ class CreateUseCaseImplTest {
     }
 
     @Test
+    @DisplayName("Unit: 'Create User' throws exception if User's email already exists.")
     void createUserThrowsExceptionTest() {
         when(userRepositoryPort.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
 
@@ -85,7 +88,7 @@ class CreateUseCaseImplTest {
         );
 
         assertEquals("Email already exists!", exception.getDetail());
-        assertEquals(HttpStatus.CONFLICT.value(), Integer.parseInt(exception.getHttpStatusCode()));
+        assertEquals(HttpStatus.CONFLICT, exception.getHttpStatusCode());
 
         verify(userRepositoryPort).findUserByEmail(userEmail);
         verifyNoInteractions(userMapper);

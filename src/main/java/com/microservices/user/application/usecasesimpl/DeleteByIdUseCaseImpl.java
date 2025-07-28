@@ -15,7 +15,7 @@ public class DeleteByIdUseCaseImpl implements DeleteByIdUseCase {
     @Override
     public void deleteUser(String id) {
         userRepositoryPort.findById(id).orElseThrow(() ->
-                new UserNotFoundException("User's email not found!"));
+                new UserNotFoundException("User's id not found!"));
         userRepositoryPort.deleteUser(id);
     }
 

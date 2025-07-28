@@ -46,13 +46,13 @@ class UserControllerTest {
     private String userId;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.userDto = UserTestFactory.createUserDto();
         this.userId = "1";
     }
 
     @Test
-    void findAllTest(){
+    void findAllTest() {
         when(findAllUseCase.findAll()).thenReturn(List.of(userDto));
 
         ResponseEntity<List<UserDto>> result = userController.findAll();
@@ -63,8 +63,9 @@ class UserControllerTest {
         assertEquals(HttpStatus.OK, result.getStatusCode());
         verify(findAllUseCase).findAll();
     }
+
     @Test
-    void findUserByIdTest(){
+    void findUserByIdTest() {
         when(findByIdUseCase.findById(userDto.id())).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findById(userDto.id());
@@ -74,10 +75,11 @@ class UserControllerTest {
         assertThat(result.getBody().id()).isEqualTo(userDto.id());
         assertThat(result.getBody().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(findByIdUseCase).findById(userDto.id());    }
+        verify(findByIdUseCase).findById(userDto.id());
+    }
 
     @Test
-    void findUserByEmailTest(){
+    void findUserByEmailTest() {
         when(findByEmailUseCase.findByEmail(userDto.email())).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findByEmail(userDto.email());
@@ -90,7 +92,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUserTest(){
+    void createUserTest() {
         when(createUseCase.createUser(userDto)).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.create(userDto);
@@ -103,7 +105,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUserTest(){
+    void updateUserTest() {
         when(updateUseCase.updateUser(userDto)).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.update(userDto);
@@ -116,7 +118,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUserTest(){
+    void deleteUserTest() {
         doNothing().when(deleteByIdUseCase).deleteUser(userId);
 
         ResponseEntity<Void> result = userController.delete(userId);

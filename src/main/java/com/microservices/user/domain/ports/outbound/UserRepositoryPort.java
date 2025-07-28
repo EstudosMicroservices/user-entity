@@ -18,4 +18,6 @@ public interface UserRepositoryPort {
     User updateUser(User user);
 
     void deleteUser(String id);
+
+    void deleteAll();
 }

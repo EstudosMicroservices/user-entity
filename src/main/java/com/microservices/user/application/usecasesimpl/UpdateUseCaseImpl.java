@@ -18,8 +18,9 @@ public class UpdateUseCaseImpl implements UpdateUseCase {
 
     @Override
     public UserDto updateUser(UserDto userDto) {
-        User user = userRepositoryPort.findById(userDto.id()).orElseThrow(() ->
+        User existingUser = userRepositoryPort.findById(userDto.id()).orElseThrow(() ->
                 new UserNotFoundException("User's id not found!"));
-        return userMapper.toDto(userRepositoryPort.updateUser(user));
+        userMapper.updateUserEntity(userDto, existingUser);
+        return userMapper.toDto(userRepositoryPort.updateUser(existingUser));
     }
 }

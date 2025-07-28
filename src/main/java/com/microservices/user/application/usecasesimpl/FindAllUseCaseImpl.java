@@ -21,7 +21,7 @@ public class FindAllUseCaseImpl implements FindAllUseCase {
     @Override
     public List<UserDto> findAll() {
         List<User> userList = userRepositoryPort.listUsers();
-        if(userList.isEmpty()){
+        if (userList.isEmpty()) {
             throw new UserNotFoundException("User's list is empty!");
         }
         return userMapper.toListDto(userList);

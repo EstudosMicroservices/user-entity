@@ -26,18 +26,18 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public Optional<User> findById(String id){
+    public Optional<User> findById(String id) {
         return userRepository.findById(id).map(userMapper::toDomain);
     }
 
     @Override
-    public List<User> listUsers(){
+    public List<User> listUsers() {
         List<UserEntity> listEntity = userRepository.findAll();
         return userMapper.listEntityToListDomain(listEntity);
     }
 
     @Override
-    public User createUser(User user){
+    public User createUser(User user) {
         UserEntity createUser = userMapper.toPersist(user);
         return userMapper.toDomain(userRepository.save(createUser));
     }
@@ -51,6 +51,11 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     @Override
     public void deleteUser(String id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 
 }

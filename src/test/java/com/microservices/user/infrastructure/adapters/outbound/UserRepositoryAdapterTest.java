@@ -41,12 +41,12 @@ class UserRepositoryAdapterTest {
 
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.userEntity = UserTestFactory.createUserEntity();
         this.user = UserTestFactory.createUser();
     }
 
-    static Stream<TestFunction> provideTestMethods(){
+    static Stream<TestFunction> provideTestMethods() {
         return Stream.of(
                 new TestFunction("createUser",
                         adapter -> adapter.createUser(User.builder().build())),
@@ -56,7 +56,7 @@ class UserRepositoryAdapterTest {
     }
 
     @Test
-    void findUserByEmailTest(){
+    void findUserByEmailTest() {
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity)).thenReturn(user);
@@ -70,7 +70,7 @@ class UserRepositoryAdapterTest {
     }
 
     @Test
-    void findUserByIdTest(){
+    void findUserByIdTest() {
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(userEntity));
         when(userMapper.toDomain(userEntity)).thenReturn(user);
 
@@ -82,7 +82,7 @@ class UserRepositoryAdapterTest {
     }
 
     @Test
-    void listUsersTest(){
+    void listUsersTest() {
 
         UserEntity userEntity2 = UserTestFactory.createUserEntity();
         userEntity2.setId("2");
@@ -90,7 +90,7 @@ class UserRepositoryAdapterTest {
         User user2 = UserTestFactory.createUser();
         user2.setId("2");
 
-        List<UserEntity> userEntityList = List.of(userEntity,userEntity2);
+        List<UserEntity> userEntityList = List.of(userEntity, userEntity2);
 
         when(userRepository.findAll()).thenReturn(userEntityList);
         when(userMapper.listEntityToListDomain(userEntityList)).thenReturn(List.of(user, user2));
@@ -129,7 +129,7 @@ class UserRepositoryAdapterTest {
     }
 
     @Test
-    void deleteUserTest(){
+    void deleteUserTest() {
 
         doNothing().when(userRepository).deleteById(user.getId());
 

@@ -9,10 +9,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = ValidateDataNascimentoImpl.class)
-@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidateDataNascimento {
     String message() default "This field broke the law of time and space or incorrect date format)";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
