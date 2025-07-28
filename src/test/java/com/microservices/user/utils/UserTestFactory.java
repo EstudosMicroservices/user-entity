@@ -8,13 +8,13 @@ import java.time.LocalDate;
 
 public class UserTestFactory {
 
-    public static User createUser(){
+    public static User createUser() {
         return User.builder()
                 .id("1")
                 .nomeCompleto("Nome Teste")
                 .email("teste@teste.com")
                 .senha("Senha Teste")
-                .dataNascimento("25-03-2001")
+                .dataNascimento(LocalDate.of(2001, 3, 25))
                 .rua("Rua Teste")
                 .bairro("Bairro Teste")
                 .cidade("Cidade Teste")
@@ -23,7 +23,7 @@ public class UserTestFactory {
     }
 
 
-    public static UserDto createUserDto(){
+    public static UserDto createUserDto() {
         LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
         return new UserDto(
                 "1",
@@ -35,10 +35,40 @@ public class UserTestFactory {
                 "Bairro Teste",
                 "Cidade Teste",
                 "Estado Teste"
-                );
+        );
     }
 
-    public static UserDto createUserDtoTwo(){
+    public static UserDto createUpdatedDto(String id) {
+        LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
+        return new UserDto(
+                id,
+                "Nome Updated",
+                "teste@teste.com",
+                "Senha Teste",
+                dataNascimento,
+                "Rua Teste",
+                "Bairro Teste",
+                "Cidade Teste",
+                "Estado Teste"
+        );
+    }
+
+    public static UserDto createUserDtoWithoutId() {
+        LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
+        return new UserDto(
+                null,
+                "Nome Teste",
+                "teste@teste.com",
+                "Senha Teste",
+                dataNascimento,
+                "Rua Teste",
+                "Bairro Teste",
+                "Cidade Teste",
+                "Estado Teste"
+        );
+    }
+
+    public static UserDto createUserDtoTwo() {
         LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
         return new UserDto(
                 "2",
@@ -53,7 +83,7 @@ public class UserTestFactory {
         );
     }
 
-    public static UserDto createUserDtoEncoded(){
+    public static UserDto createUserDtoEncoded() {
         LocalDate dataNascimento = LocalDate.of(2001, 3, 25);
         return new UserDto(
                 "1",
@@ -65,16 +95,16 @@ public class UserTestFactory {
                 "Bairro Teste",
                 "Cidade Teste",
                 "Estado Teste"
-                );
+        );
     }
 
-    public static UserEntity createUserEntity(){
+    public static UserEntity createUserEntity() {
         return UserEntity.builder()
                 .id("1")
                 .nomeCompleto("Nome Teste")
                 .email("teste@teste.com")
                 .senha("Senha Teste")
-                .dataNascimento("25-03-2001")
+                .dataNascimento(LocalDate.of(2001, 3, 25))
                 .rua("Rua Teste")
                 .bairro("Bairro Teste")
                 .cidade("Cidade Teste")
