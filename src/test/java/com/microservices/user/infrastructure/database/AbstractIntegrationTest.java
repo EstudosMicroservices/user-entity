@@ -1,4 +1,4 @@
-package com.microservices.user;
+package com.microservices.user.infrastructure.database;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;

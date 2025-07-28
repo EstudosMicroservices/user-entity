@@ -55,7 +55,6 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: root
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TESTCONTAINERS_HOST_OVERRIDE: host.docker.internal
         run: |
           # O comando 'mvn' agora será encontrado
           mvn -B verify sonar:sonar \

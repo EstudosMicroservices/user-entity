@@ -1,5 +1,6 @@
 package com.microservices.user;
 
+import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -10,7 +11,9 @@ class UserApplicationTest extends AbstractIntegrationTest {
 
     @Test
     void contextLoads() {
-    // Smoke test
+    /*
+    * Smoke Test
+    */
 
     }
 }

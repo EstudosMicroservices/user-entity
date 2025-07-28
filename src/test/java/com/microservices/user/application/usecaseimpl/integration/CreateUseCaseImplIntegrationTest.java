@@ -1,6 +1,6 @@
 package com.microservices.user.application.usecaseimpl.integration;
 
-import com.microservices.user.AbstractIntegrationTest;
+import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserAlreadyExistsException;
 import com.microservices.user.domain.model.User;
