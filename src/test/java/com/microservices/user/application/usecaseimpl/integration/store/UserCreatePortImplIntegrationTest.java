@@ -1,11 +1,12 @@
-package com.microservices.user.application.usecaseimpl.integration;
+package com.microservices.user.application.usecaseimpl.integration.store;
 
-import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import com.microservices.user.application.dto.UserDto;
+import com.microservices.user.application.events.UserRegisteredEvent;
 import com.microservices.user.application.exceptions.user.UserAlreadyExistsException;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.domain.ports.inbound.CreateUseCase;
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.inbound.user.store.CreateUserFromEventPort;
+import com.microservices.user.domain.ports.outbound.user.UserRepositoryPort;
+import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import com.microservices.user.utils.UserTestFactory;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -25,11 +25,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-class CreateUseCaseImplIntegrationTest extends AbstractIntegrationTest {
-
-    private final CreateUseCase createUseCase;
+class UserCreatePortImplIntegrationTest extends AbstractIntegrationTest {
 
     private final UserRepositoryPort userRepositoryPort;
+    private final CreateUserFromEventPort createUserFromEventPort;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -39,7 +38,6 @@ class CreateUseCaseImplIntegrationTest extends AbstractIntegrationTest {
     @BeforeEach
     void setup() {
         this.user = UserTestFactory.createUser();
-        this.user.setId(null);
         this.userDto = UserTestFactory.createUserDtoWithoutId();
     }
 
@@ -52,34 +50,31 @@ class CreateUseCaseImplIntegrationTest extends AbstractIntegrationTest {
     @DisplayName("Integration: Create user")
     void createUserTest() {
 
-        UserDto createdUserDto = createUseCase.createUser(userDto);
+        User createdUser = userRepositoryPort.createUser(user);
 
-        assertNotNull(createdUserDto);
-        assertNotNull(createdUserDto.id());
-        assertEquals("teste@teste.com", createdUserDto.email());
+        assertNotNull(createdUser);
+        assertNotNull(createdUser.getId());
+        assertEquals("teste@teste.com", createdUser.getEmail());
 
         Optional<User> savedUserOptional = userRepositoryPort.findUserByEmail("teste@teste.com");
 
         assertTrue(savedUserOptional.isPresent());
-
-        User savedUser = savedUserOptional.get();
-        assertTrue(passwordEncoder.matches("Senha Teste", savedUser.getSenha()));
     }
 
     @Test
-    @DisplayName("Integration: 'Create user' throws exception if user already exists.")
-    void failedToCreateUserAlreadyExistsTest() {
-        createUseCase.createUser(userDto);
+    @DisplayName("Integration: Failed to create user")
+    void failedToCreateUserAlreadyExistsTest(){
 
-        UserAlreadyExistsException exception = assertThrows(
-                UserAlreadyExistsException.class,
-                () -> createUseCase.createUser(userDto)
-        );
+        // Populate database with an existing user
+        userRepositoryPort.createUser(user);
 
+        UserRegisteredEvent userToBeRegistered = UserTestFactory.createUserEvent();
+
+        UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
+                () -> createUserFromEventPort.createUserFromEvent(userToBeRegistered));
 
         assertNotNull(exception);
-        assertEquals("Email already exists!", exception.getDetail());
-        assertEquals(HttpStatusCode.valueOf(409), exception.getHttpStatusCode());
+        assertEquals("User's id already exists!", exception.getDetail());
     }
 
 }

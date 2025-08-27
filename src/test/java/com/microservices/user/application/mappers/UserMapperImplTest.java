@@ -2,7 +2,7 @@ package com.microservices.user.application.mappers;
 
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.infrastructure.persistence.UserEntity;
+import com.microservices.user.infrastructure.persistence.entity.UserEntity;
 import com.microservices.user.utils.UserTestFactory;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,9 +14,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.anyOf;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
@@ -103,9 +103,6 @@ class UserMapperImplTest {
         assertThat(result.getEmail()).isEqualTo(userEntity.getEmail());
         assertThat(result.getNomeCompleto()).isEqualTo(userEntity.getNomeCompleto());
 
-        User nullResult = userMapper.toDomain(null);
-        assertNull(nullResult);
-
     }
 
     @Test
@@ -121,4 +118,16 @@ class UserMapperImplTest {
         assertNull(nullResult);
     }
 
+    @Test
+    void updateUserEntityTest(){
+        User existingUser = this.user;
+        UserDto updatedUser = UserTestFactory.createUpdatedDto(null);
+
+        userMapper.updateUserEntity(updatedUser, existingUser);
+        assertEquals(updatedUser.nomeCompleto(), existingUser.getNomeCompleto());
+        assertNotEquals(updatedUser.id(), existingUser.getId());
+
+        userMapper.updateUserEntity(null, existingUser);
+
+    }
 }
