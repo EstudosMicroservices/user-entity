@@ -1,6 +1,8 @@
-package com.microservices.user.infrastructure.persistence;
+package com.microservices.user.infrastructure.persistence.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -14,7 +16,6 @@ import java.time.LocalDate;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(name = "Nome_Completo", nullable = false)
@@ -22,9 +23,6 @@ public class UserEntity {
 
     @Column(name = "Email", nullable = false, unique = true)
     private String email;
-
-    @Column(name = "Senha", nullable = false)
-    private String senha;
 
     @Column(name = "Data_Nascimento", nullable = false)
     private LocalDate dataNascimento;

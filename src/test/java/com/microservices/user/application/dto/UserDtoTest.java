@@ -14,7 +14,6 @@ public class UserDtoTest {
         UserDto userDto = new UserDto("1",
                 "Nome Teste",
                 "teste@teste.com",
-                "Senha Teste",
                 dataNascimento,
                 "Rua Teste",
                 "Bairro Teste",
@@ -23,7 +22,6 @@ public class UserDtoTest {
 
         assertThat(userDto.nomeCompleto()).isEqualTo("Nome Teste");
         assertThat(userDto.email()).isEqualTo("teste@teste.com");
-        assertThat(userDto.senha()).isEqualTo("Senha Teste");
         assertThat(userDto.dataNascimento()).isEqualTo(LocalDate.of(2001, 3, 25));
         assertThat(userDto.rua()).isEqualTo("Rua Teste");
         assertThat(userDto.bairro()).isEqualTo("Bairro Teste");

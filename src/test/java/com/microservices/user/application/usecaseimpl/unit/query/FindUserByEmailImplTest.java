@@ -1,11 +1,11 @@
-package com.microservices.user.application.usecaseimpl.unit;
+package com.microservices.user.application.usecaseimpl.unit.query;
 
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
+import com.microservices.user.application.implementations.user.query.FindUserByEmailImpl;
 import com.microservices.user.application.mappers.UserMapper;
-import com.microservices.user.application.usecasesimpl.FindByEmailUseCaseImpl;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.outbound.user.UserRepositoryPort;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-class FindByEmailUseCaseTest {
+class FindUserByEmailImplTest {
 
     @Mock
     private UserRepositoryPort userRepositoryPort;
@@ -32,7 +32,7 @@ class FindByEmailUseCaseTest {
     private UserMapper userMapper;
 
     @InjectMocks
-    private FindByEmailUseCaseImpl findByEmailUseCaseImpl;
+    private FindUserByEmailImpl findByEmailUseCaseImpl;
 
     private User user;
     private UserDto userDto;

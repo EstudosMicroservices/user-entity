@@ -1,11 +1,12 @@
-package com.microservices.user.application.usecaseimpl.integration;
+package com.microservices.user.application.usecaseimpl.integration.query;
 
-import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
+
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.domain.ports.inbound.UpdateUseCase;
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.inbound.user.query.FindUserByIdPort;
+import com.microservices.user.domain.ports.outbound.user.UserRepositoryPort;
+import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import com.microservices.user.utils.UserTestFactory;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
@@ -22,9 +23,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-class UpdateUseCaseImplIntegrationTest extends AbstractIntegrationTest {
+class FindUserByIdImplIntegrationTest extends AbstractIntegrationTest {
 
-    private final UpdateUseCase updateUseCase;
+    private final FindUserByIdPort findUserByIdPort;
     private final UserRepositoryPort userRepositoryPort;
 
     private User user;
@@ -33,7 +34,6 @@ class UpdateUseCaseImplIntegrationTest extends AbstractIntegrationTest {
     @BeforeEach
     void setup() {
         this.user = UserTestFactory.createUser();
-        this.user.setId(null);
         this.userDto = UserTestFactory.createUserDto();
     }
 
@@ -43,29 +43,29 @@ class UpdateUseCaseImplIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("Integration: Update User")
-    void updateUserTest() {
+    @DisplayName("Integration: Find User by Id")
+    void findUserByIdTest() {
 
         User createdUser = userRepositoryPort.createUser(user);
 
         assertNotNull(createdUser);
         assertNotNull(createdUser.getId());
 
-        UserDto createdUpdatedUser = UserTestFactory.createUpdatedDto(createdUser.getId());
+        UserDto userFound = findUserByIdPort.findById(createdUser.getId());
 
-        UserDto updatedUser = updateUseCase.updateUser(createdUpdatedUser);
-
-        assertNotNull(updatedUser);
-        assertEquals(createdUser.getId(), updatedUser.id());
-        assertEquals(createdUpdatedUser.nomeCompleto(), updatedUser.nomeCompleto());
+        assertNotNull(userFound);
+        assertEquals(createdUser.getId(), userFound.id());
+        assertEquals(createdUser.getEmail(), userFound.email());
     }
 
     @Test
-    @DisplayName("Integration: 'Update User' throws exception if User's id isn't found.")
-    void updateUserNotFoundTest() {
+    @DisplayName("Integration: 'Find User by Id' throws exception if User's id isn't found.")
+    void findUserByIdNotFoundTest() {
+
+        String userId = userDto.id();
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
-                () -> updateUseCase.updateUser(userDto));
+                () -> findUserByIdPort.findById(userId));
 
         assertNotNull(exception);
         assertEquals("User's id not found!", exception.getDetail());

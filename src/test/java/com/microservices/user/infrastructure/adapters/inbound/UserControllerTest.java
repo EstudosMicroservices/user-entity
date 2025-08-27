@@ -1,7 +1,9 @@
 package com.microservices.user.infrastructure.adapters.inbound;
 
 import com.microservices.user.application.dto.UserDto;
-import com.microservices.user.domain.ports.inbound.*;
+import com.microservices.user.domain.ports.inbound.user.query.FindAllUsersPort;
+import com.microservices.user.domain.ports.inbound.user.query.FindUserByEmailPort;
+import com.microservices.user.domain.ports.inbound.user.query.FindUserByIdPort;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,38 +24,26 @@ import static org.mockito.Mockito.*;
 class UserControllerTest {
 
     @Mock
-    private FindAllUseCase findAllUseCase;
+    private FindAllUsersPort findAllUsersPort;
 
     @Mock
-    private FindByIdUseCase findByIdUseCase;
+    private FindUserByIdPort findUserByIdPort;
 
     @Mock
-    private FindByEmailUseCase findByEmailUseCase;
-
-    @Mock
-    private CreateUseCase createUseCase;
-
-    @Mock
-    private UpdateUseCase updateUseCase;
-
-    @Mock
-    private DeleteByIdUseCase deleteByIdUseCase;
+    private FindUserByEmailPort findUserByEmailPort;
 
     @InjectMocks
     private UserController userController;
 
     private UserDto userDto;
-    private String userId;
-
     @BeforeEach
     void setup() {
         this.userDto = UserTestFactory.createUserDto();
-        this.userId = "1";
     }
 
     @Test
     void findAllTest() {
-        when(findAllUseCase.findAll()).thenReturn(List.of(userDto));
+        when(findAllUsersPort.findAll()).thenReturn(List.of(userDto));
 
         ResponseEntity<List<UserDto>> result = userController.findAll();
 
@@ -61,12 +51,12 @@ class UserControllerTest {
         assertThat(result.getBody()).hasSize(1);
         assertThat(result.getBody().getFirst().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(findAllUseCase).findAll();
+        verify(findAllUsersPort).findAll();
     }
 
     @Test
     void findUserByIdTest() {
-        when(findByIdUseCase.findById(userDto.id())).thenReturn(userDto);
+        when(findUserByIdPort.findById(userDto.id())).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findById(userDto.id());
 
@@ -75,12 +65,12 @@ class UserControllerTest {
         assertThat(result.getBody().id()).isEqualTo(userDto.id());
         assertThat(result.getBody().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(findByIdUseCase).findById(userDto.id());
+        verify(findUserByIdPort).findById(userDto.id());
     }
 
     @Test
     void findUserByEmailTest() {
-        when(findByEmailUseCase.findByEmail(userDto.email())).thenReturn(userDto);
+        when(findUserByEmailPort.findByEmail(userDto.email())).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findByEmail(userDto.email());
 
@@ -88,45 +78,6 @@ class UserControllerTest {
         assertThat(result.getBody()).isEqualTo(userDto);
         assertThat(result.getBody().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(findByEmailUseCase).findByEmail(userDto.email());
+        verify(findUserByEmailPort).findByEmail(userDto.email());
     }
-
-    @Test
-    void createUserTest() {
-        when(createUseCase.createUser(userDto)).thenReturn(userDto);
-
-        ResponseEntity<UserDto> result = userController.create(userDto);
-
-        assertNotNull(result.getBody());
-        assertThat(result.getBody()).isEqualTo(userDto);
-        assertThat(result.getBody().email()).isEqualTo(userDto.email());
-        assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        verify(createUseCase).createUser(userDto);
-    }
-
-    @Test
-    void updateUserTest() {
-        when(updateUseCase.updateUser(userDto)).thenReturn(userDto);
-
-        ResponseEntity<UserDto> result = userController.update(userDto);
-
-        assertNotNull(result.getBody());
-        assertThat(result.getBody()).isEqualTo(userDto);
-        assertThat(result.getBody().email()).isEqualTo(userDto.email());
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        verify(updateUseCase).updateUser(userDto);
-    }
-
-    @Test
-    void deleteUserTest() {
-        doNothing().when(deleteByIdUseCase).deleteUser(userId);
-
-        ResponseEntity<Void> result = userController.delete(userId);
-
-        assertNull(result.getBody());
-        assertNotNull(result.getStatusCode());
-        assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
-        verify(deleteByIdUseCase).deleteUser(userId);
-    }
-
 }

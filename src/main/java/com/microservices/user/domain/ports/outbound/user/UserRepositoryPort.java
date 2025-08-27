@@ -1,4 +1,4 @@
-package com.microservices.user.domain.ports.outbound;
+package com.microservices.user.domain.ports.outbound.user;
 
 import com.microservices.user.domain.model.User;
 

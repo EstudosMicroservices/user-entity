@@ -2,8 +2,8 @@ package com.microservices.user.infrastructure.adapters.outbound;
 
 import com.microservices.user.application.mappers.UserMapper;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.infrastructure.persistence.UserEntity;
-import com.microservices.user.infrastructure.persistence.UserRepository;
+import com.microservices.user.infrastructure.persistence.entity.UserEntity;
+import com.microservices.user.infrastructure.persistence.repository.UserRepository;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

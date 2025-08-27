@@ -1,11 +1,11 @@
-package com.microservices.user.application.usecaseimpl.unit;
+package com.microservices.user.application.usecaseimpl.unit.query;
 
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
+import com.microservices.user.application.implementations.user.query.FindUserByIdImpl;
 import com.microservices.user.application.mappers.UserMapper;
-import com.microservices.user.application.usecasesimpl.UpdateUseCaseImpl;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.outbound.user.UserRepositoryPort;
 import com.microservices.user.utils.UserTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,12 +19,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-class UpdateUseCaseImplTest {
+class FindUserByIdImplTest {
 
     @Mock
     private UserRepositoryPort userRepositoryPort;
@@ -33,7 +33,7 @@ class UpdateUseCaseImplTest {
     private UserMapper userMapper;
 
     @InjectMocks
-    private UpdateUseCaseImpl updateUseCaseImpl;
+    private FindUserByIdImpl findByIdUseCase;
 
     private User user;
     private UserDto userDto;
@@ -46,39 +46,38 @@ class UpdateUseCaseImplTest {
         this.userId = user.getId();
     }
 
+
     @Test
-    @DisplayName("Unit: Update User")
-    void updateUserUseCaseTest() {
+    @DisplayName("Unit: Find User by Id")
+    void findByIdTest() {
 
         when(userRepositoryPort.findById(userId)).thenReturn(Optional.of(user));
-        when(userMapper.toUser(userDto)).thenReturn(user);
-        when(userRepositoryPort.updateUser(user)).thenReturn(user);
         when(userMapper.toDto(user)).thenReturn(userDto);
 
-        UserDto result = updateUseCaseImpl.updateUser(userDto);
+        UserDto result = findByIdUseCase.findById(user.getId());
 
-        assertThat(result).isNotNull();
-        assertThat(result.email()).isEqualTo(userDto.email());
+        assertNotNull(result);
+        assertThat(result.id()).isEqualTo(userId);
 
         verify(userRepositoryPort).findById(userId);
-        verify(userRepositoryPort).updateUser(user);
         verify(userMapper).toDto(user);
     }
 
     @Test
-    @DisplayName("Unit: 'Update User' throws exception if User's id isn't found.")
-    void updateUserNotFoundExceptionTest() {
+    @DisplayName("Unit: 'Find User by Id' throws exception if User's id isn't found.")
+    void findByIdExceptionTest() {
 
         when(userRepositoryPort.findById(userId)).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
-                () -> updateUseCaseImpl.updateUser(userDto));
+                () -> findByIdUseCase.findById(userId));
 
-        assertThat(exception.getDetail()).isEqualTo("User's id not found!");
+        assertNotNull(exception);
         assertEquals(HttpStatus.NO_CONTENT, exception.getHttpStatusCode());
+        assertEquals("User not found!", exception.getTitle());
+        assertEquals("User's id not found!", exception.getDetail());
 
         verify(userRepositoryPort).findById(userId);
-        verify(userRepositoryPort, never()).updateUser(any());
-        verifyNoInteractions(userMapper);
+        verify(userMapper, never()).toDto(any());
     }
 }

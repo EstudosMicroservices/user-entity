@@ -14,7 +14,6 @@ public class User {
     private String id;
     private String nomeCompleto;
     private String email;
-    private String senha;
     private LocalDate dataNascimento;
     private String rua;
     private String bairro;

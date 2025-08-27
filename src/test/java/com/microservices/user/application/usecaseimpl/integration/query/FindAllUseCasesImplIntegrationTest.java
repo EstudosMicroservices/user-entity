@@ -1,12 +1,11 @@
-package com.microservices.user.application.usecaseimpl.integration;
+package com.microservices.user.application.usecaseimpl.integration.query;
 
-
-import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.domain.ports.inbound.FindByIdUseCase;
-import com.microservices.user.domain.ports.outbound.UserRepositoryPort;
+import com.microservices.user.domain.ports.inbound.user.query.FindAllUsersPort;
+import com.microservices.user.domain.ports.outbound.user.UserRepositoryPort;
+import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import com.microservices.user.utils.UserTestFactory;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
@@ -18,24 +17,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-class FindByIdUseCaseImplIntegrationTest extends AbstractIntegrationTest {
+class FindAllUseCasesImplIntegrationTest extends AbstractIntegrationTest {
 
-    private final FindByIdUseCase findByIdUseCase;
+    private final FindAllUsersPort findAllUsersPort;
     private final UserRepositoryPort userRepositoryPort;
 
     private User user;
-    private UserDto userDto;
 
     @BeforeEach
     void setup() {
         this.user = UserTestFactory.createUser();
-        this.user.setId(null);
-        this.userDto = UserTestFactory.createUserDto();
     }
 
     @AfterEach
@@ -44,32 +42,32 @@ class FindByIdUseCaseImplIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("Integration: Find User by Id")
-    void findUserByIdTest() {
+    @DisplayName("Integration: Find All Users")
+    void findAllUsersTest() {
 
-        User createdUser = userRepositoryPort.createUser(user);
+        User checkCreate = userRepositoryPort.createUser(user);
 
-        assertNotNull(createdUser);
-        assertNotNull(createdUser.getId());
+        assertNotNull(checkCreate);
+        assertNotNull(checkCreate.getId());
 
-        UserDto userFound = findByIdUseCase.findById(createdUser.getId());
+        List<UserDto> userList = findAllUsersPort.findAll();
 
-        assertNotNull(userFound);
-        assertEquals(createdUser.getId(), userFound.id());
-        assertEquals(createdUser.getEmail(), userFound.email());
+        assertNotNull(userList);
+        assertEquals(checkCreate.getId(), userList.getFirst().id());
+        assertEquals(checkCreate.getEmail(), userList.getFirst().email());
     }
 
     @Test
-    @DisplayName("Integration: 'Find User by Id' throws exception if User's id isn't found.")
-    void findUserByIdNotFoundTest() {
-
-        String userId = userDto.id();
+    @DisplayName("Integration: 'Find All Users' throws exception if returned list is empty.")
+    void findAllUsersListNotFoundTest() {
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
-                () -> findByIdUseCase.findById(userId));
+                findAllUsersPort::findAll);
+
 
         assertNotNull(exception);
-        assertEquals("User's id not found!", exception.getDetail());
+        assertEquals("User's list is empty!", exception.getDetail());
         assertEquals(HttpStatusCode.valueOf(204), exception.getHttpStatusCode());
     }
+
 }
