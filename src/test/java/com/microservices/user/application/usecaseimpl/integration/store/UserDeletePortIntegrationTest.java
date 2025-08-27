@@ -53,8 +53,10 @@ class UserDeletePortIntegrationTest extends AbstractIntegrationTest {
     @DisplayName("Integration: 'Delete User by Id' throws exception if User's id isn't found.")
     void failedToDeleteUserNotFoundTest() {
 
+        String userId = user.getId();
+
         UserNotFoundException exception = assertThrows(UserNotFoundException.class, () ->
-                deleteUserPort.deleteUser(user.getId()));
+                deleteUserPort.deleteUser(userId));
 
         assertNotNull(exception);
         assertEquals("User's id not found!", exception.getDetail());

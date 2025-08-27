@@ -22,12 +22,12 @@ public class FindUserByIdImpl implements FindUserByIdPort {
 
     @Override
     public UserDto findById(String id) {
-        log.info("[FindUserByIdImpl] Finding user with id: {}", id);
+        log.info("Finding user by id.");
         User user = userRepositoryPort.findById(id).orElseThrow(() ->{
             log.error("[FindUserByIdImpl] Couldn't find user by id!");
             return new UserNotFoundException("User's id not found!");
     });
-        log.info("[FindUserByIdImpl] Successfully found user with id: {}", id);
+        log.info("Successfully found user!");
         return userMapper.toDto(user);
     }
 }

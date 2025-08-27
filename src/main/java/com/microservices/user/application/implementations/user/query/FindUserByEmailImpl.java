@@ -21,12 +21,12 @@ public class FindUserByEmailImpl implements FindUserByEmailPort {
 
     @Override
     public UserDto findByEmail(String email) {
-        log.info("[FindUserByEmailImpl] Finding user by email: {}", email);
+        log.info("[FindUserByEmailImpl] Finding user by email.");
         User user = userRepositoryPort.findUserByEmail(email).orElseThrow(() ->{
                 log.error("[FindUserByEmailImpl] Couldn't find user by email!");
                 return new UserNotFoundException("User's email not found!");
         });
-        log.info("[FindUserByEmailImpl] Successfully found user with email: {}", email);
+        log.info("[FindUserByEmailImpl] Successfully found user by email!");
         return userMapper.toDto(user);
     }
 }
