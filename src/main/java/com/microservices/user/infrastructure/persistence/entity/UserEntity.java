@@ -1,0 +1,42 @@
+package com.microservices.user.infrastructure.persistence.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserEntity {
+
+    @Id
+    private String id;
+
+    @Column(name = "Nome_Completo", nullable = false)
+    private String nomeCompleto;
+
+    @Column(name = "Email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "Data_Nascimento", nullable = false)
+    private LocalDate dataNascimento;
+
+    @Column(name = "Rua", nullable = false)
+    private String rua;
+
+    @Column(name = "Bairro", nullable = false)
+    private String bairro;
+
+    @Column(name = "Cidade", nullable = false)
+    private String cidade;
+
+    @Column(name = "Estado", nullable = false)
+    private String estado;
+
+}

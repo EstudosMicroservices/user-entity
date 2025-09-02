@@ -15,6 +15,8 @@ services:
       retries: 5
       start_period: 30s
       timeout: 10s
+    networks:
+      - mynetwork
 
   app:
     build: .
@@ -24,10 +26,16 @@ services:
     container_name: user-app
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/user
-      SPRING_DATASOURCE_USER: root
-      SPRING_DATASOURCE_PASSWORD: root
+      USER_DB: root
+      PASS_DB: root
     ports:
       - "8081:8080"
+    networks:
+      - mynetwork
 
 volumes:
   mysql_data:
+
+networks:
+  mynetwork:
+    driver: bridge

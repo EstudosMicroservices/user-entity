@@ -19,7 +19,6 @@ public class UserTest {
         assertThat(user.getId()).isEqualTo("1");
         assertThat(user.getNomeCompleto()).isEqualTo("Nome Teste");
         assertThat(user.getEmail()).isEqualTo("teste@teste.com");
-        assertThat(user.getSenha()).isEqualTo("Senha Teste");
         assertThat(user.getDataNascimento()).isEqualTo(LocalDate.of(2001, 3, 25));
         assertThat(user.getRua()).isEqualTo("Rua Teste");
         assertThat(user.getBairro()).isEqualTo("Bairro Teste");

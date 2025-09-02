@@ -1,8 +1,9 @@
 package com.microservices.user.application.mappers;
 
 import com.microservices.user.application.dto.UserDto;
+import com.microservices.user.application.events.UserRegisteredEvent;
 import com.microservices.user.domain.model.User;
-import com.microservices.user.infrastructure.persistence.UserEntity;
+import com.microservices.user.infrastructure.persistence.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,6 +23,9 @@ public interface UserMapper {
     UserEntity toPersist(User user);
 
     User toDomain(UserEntity userEntity);
+
+    @Mapping(target = "id", source = "id")
+    User toDomain(UserRegisteredEvent userRegisteredEvent);
 
     List<User> listEntityToListDomain(List<UserEntity> userList);
 
