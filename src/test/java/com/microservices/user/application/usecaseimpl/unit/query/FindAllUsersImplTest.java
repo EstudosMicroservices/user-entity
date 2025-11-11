@@ -1,6 +1,5 @@
 package com.microservices.user.application.usecaseimpl.unit.query;
 
-import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.application.implementations.user.query.FindAllUsersImpl;
 import com.microservices.user.domain.model.User;
@@ -32,12 +31,11 @@ class FindAllUsersImplTest {
 
     private User user, user2;
 
+
     @BeforeEach
     void setup() {
         this.user = UserTestFactory.createUser();
         this.user2 = UserTestFactory.createUser();
-        this.userDto = UserTestFactory.createUserDto();
-        this.userDto2 = UserTestFactory.createUserDtoTwo();
         this.user2.setId("2");
     }
 
