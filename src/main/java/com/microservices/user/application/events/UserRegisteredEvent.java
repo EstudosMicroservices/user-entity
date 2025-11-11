@@ -1,23 +1,23 @@
-package com.microservices.user.domain.model;
+package com.microservices.user.application.events;
 
 import lombok.*;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class User {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+public class UserRegisteredEvent {
 
     private String id;
-    private String nomeCompleto;
     private String email;
+    private String nomeCompleto;
     private LocalDate dataNascimento;
     private String rua;
     private String bairro;
     private String cidade;
     private String estado;
-
 }
