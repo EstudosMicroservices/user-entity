@@ -1,6 +1,5 @@
 package com.microservices.user.application.usecaseimpl.integration.query;
 
-import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.inbound.user.query.FindUserByEmailPort;
@@ -51,11 +50,11 @@ class FindUserByEmailImplIntegrationTest extends AbstractIntegrationTest {
         assertNotNull(createdUser);
         assertNotNull(createdUser.getEmail());
 
-        UserDto userFound = findUserByEmailPort.findByEmail(user.getEmail());
+        User userFound = findUserByEmailPort.findByEmail(user.getEmail());
 
         assertNotNull(userFound);
-        assertEquals(createdUser.getId(), userFound.id());
-        assertEquals(createdUser.getEmail(), userFound.email());
+        assertEquals(createdUser.getId(), userFound.getId());
+        assertEquals(createdUser.getEmail(), userFound.getEmail());
 
     }
 

@@ -1,6 +1,5 @@
 package com.microservices.user.application.usecaseimpl.integration.query;
 
-import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.inbound.user.query.FindAllUsersPort;
@@ -50,11 +49,11 @@ class FindAllUseCasesImplIntegrationTest extends AbstractIntegrationTest {
         assertNotNull(checkCreate);
         assertNotNull(checkCreate.getId());
 
-        List<UserDto> userList = findAllUsersPort.findAll();
+        List<User> userList = findAllUsersPort.findAll();
 
         assertNotNull(userList);
-        assertEquals(checkCreate.getId(), userList.getFirst().id());
-        assertEquals(checkCreate.getEmail(), userList.getFirst().email());
+        assertEquals(checkCreate.getId(), userList.getFirst().getId());
+        assertEquals(checkCreate.getEmail(), userList.getFirst().getEmail());
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.microservices.user.infrastructure.rabbitmq.listener;
 
-import com.microservices.user.application.events.UserRegisteredEvent;
+import com.microservices.user.domain.command.CreateUserCommand;
 import com.microservices.user.domain.ports.inbound.user.store.CreateUserFromEventPort;
 import com.microservices.user.infrastructure.database.AbstractIntegrationTest;
 import com.microservices.user.utils.UserTestFactory;
@@ -18,9 +18,9 @@ import java.util.concurrent.TimeUnit;
 
 import static com.microservices.user.infrastructure.config.rabbitmq.RabbitMQConfig.USER_REGISTERED_EXCHANGE;
 import static com.microservices.user.infrastructure.config.rabbitmq.RabbitMQConfig.USER_REGISTERED_ROUTING_KEY;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -31,11 +31,11 @@ class UserProfileListenerIntegrationTest extends AbstractIntegrationTest{
     private final CreateUserFromEventPort createUserFromEventPort;
     private final RabbitTemplate rabbitTemplate;
 
-    private UserRegisteredEvent userRegisteredEvent;
+    private CreateUserCommand createUserCommand;
 
     @BeforeEach
     void setup() {
-        this.userRegisteredEvent = UserTestFactory.createUserEvent();
+        this.createUserCommand = UserTestFactory.createNewUserCommand();
     }
 
 
@@ -44,10 +44,10 @@ class UserProfileListenerIntegrationTest extends AbstractIntegrationTest{
     void testHandleUserRegisteredEvent(){
 
 
-        rabbitTemplate.convertAndSend(USER_REGISTERED_EXCHANGE, USER_REGISTERED_ROUTING_KEY, userRegisteredEvent);
+        rabbitTemplate.convertAndSend(USER_REGISTERED_EXCHANGE, USER_REGISTERED_ROUTING_KEY, createUserCommand);
         await().atMost(5, TimeUnit.SECONDS)
                 .untilAsserted(() -> verify(createUserFromEventPort, times(1))
-                        .createUserFromEvent((userRegisteredEvent)));
+                        .createUserFromEvent((createUserCommand)));
 
     }
 }

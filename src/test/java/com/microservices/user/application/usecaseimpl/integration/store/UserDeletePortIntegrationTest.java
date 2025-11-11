@@ -44,7 +44,7 @@ class UserDeletePortIntegrationTest extends AbstractIntegrationTest {
 
         assertTrue(userRepositoryPort.findById(createdUser.getId()).isPresent());
         assertDoesNotThrow(() ->
-                userRepositoryPort.deleteUser(createdUser.getId()));
+                deleteUserPort.deleteUser(createdUser.getId()));
         assertFalse(userRepositoryPort.findById(createdUser.getId()).isPresent());
 
     }

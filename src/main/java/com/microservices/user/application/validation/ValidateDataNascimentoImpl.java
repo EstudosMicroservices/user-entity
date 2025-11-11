@@ -1,6 +1,5 @@
 package com.microservices.user.application.validation;
 
-import com.microservices.user.application.exceptions.user.DateValidationException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
@@ -16,15 +15,9 @@ public class ValidateDataNascimentoImpl implements ConstraintValidator<ValidateD
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
         log.info("[ValidateDataNascimentoImpl] Validating birthdate");
-        if (value == null) {
-//          I don't think the Dto validation will let this be thrown though.
-            log.error("[ValidateDataNascimentoImpl] Birthdate value is null");
-            throw new DateValidationException("Date value is null!");
-        }
 
         if (value.getYear() > LocalDate.now().getYear()) {
-            log.error("[ValidateDataNascimentoImpl] Birthdate value is in future");
-            throw new DateValidationException("I don't think you're a time traveller.");
+            return false;
         }
         log.info("[ValidateDataNascimentoImpl] Successfully validated birthdate!");
         LocalDate currentDate = LocalDate.now();

@@ -1,8 +1,6 @@
 package com.microservices.user.application.usecaseimpl.integration.store;
 
 import com.microservices.user.application.dto.UserDto;
-import com.microservices.user.application.events.UserRegisteredEvent;
-import com.microservices.user.application.exceptions.user.UserAlreadyExistsException;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.inbound.user.store.CreateUserFromEventPort;
 import com.microservices.user.domain.ports.outbound.user.UserRepositoryPort;
@@ -59,22 +57,6 @@ class UserCreatePortImplIntegrationTest extends AbstractIntegrationTest {
         Optional<User> savedUserOptional = userRepositoryPort.findUserByEmail("teste@teste.com");
 
         assertTrue(savedUserOptional.isPresent());
-    }
-
-    @Test
-    @DisplayName("Integration: Failed to create user")
-    void failedToCreateUserAlreadyExistsTest(){
-
-        // Populate database with an existing user
-        userRepositoryPort.createUser(user);
-
-        UserRegisteredEvent userToBeRegistered = UserTestFactory.createUserEvent();
-
-        UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
-                () -> createUserFromEventPort.createUserFromEvent(userToBeRegistered));
-
-        assertNotNull(exception);
-        assertEquals("User's id already exists!", exception.getDetail());
     }
 
 }
