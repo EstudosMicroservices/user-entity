@@ -1,9 +1,7 @@
 package com.microservices.user.application.usecaseimpl.unit.query;
 
-import com.microservices.user.application.dto.UserDto;
 import com.microservices.user.application.exceptions.user.UserNotFoundException;
 import com.microservices.user.application.implementations.user.query.FindUserByEmailImpl;
-import com.microservices.user.application.mappers.UserMapper;
 import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.outbound.user.UserRepositoryPort;
 import com.microservices.user.utils.UserTestFactory;
@@ -20,7 +18,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class FindUserByEmailImplTest {
@@ -28,20 +27,15 @@ class FindUserByEmailImplTest {
     @Mock
     private UserRepositoryPort userRepositoryPort;
 
-    @Mock
-    private UserMapper userMapper;
-
     @InjectMocks
     private FindUserByEmailImpl findByEmailUseCaseImpl;
 
     private User user;
-    private UserDto userDto;
     private String userEmail;
 
     @BeforeEach
     void setup() {
         this.user = UserTestFactory.createUser();
-        this.userDto = UserTestFactory.createUserDto();
         this.userEmail = user.getEmail();
     }
 
@@ -51,15 +45,13 @@ class FindUserByEmailImplTest {
     void findUserByEmailTest() {
 
         when(userRepositoryPort.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
-        when(userMapper.toDto(user)).thenReturn(userDto);
 
-        UserDto result = findByEmailUseCaseImpl.findByEmail(user.getEmail());
+        User result = findByEmailUseCaseImpl.findByEmail(user.getEmail());
 
         assertNotNull(result);
-        assertThat(result.email()).isEqualTo(userEmail);
+        assertThat(result.getEmail()).isEqualTo(userEmail);
 
         verify(userRepositoryPort).findUserByEmail(userEmail);
-        verify(userMapper).toDto(user);
     }
 
     @Test
@@ -77,6 +69,5 @@ class FindUserByEmailImplTest {
         assertEquals("User's email not found!", exception.getDetail());
 
         verify(userRepositoryPort).findUserByEmail(userEmail);
-        verify(userMapper, never()).toDto(any());
     }
 }

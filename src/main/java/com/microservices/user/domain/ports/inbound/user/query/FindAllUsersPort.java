@@ -1,9 +1,9 @@
 package com.microservices.user.domain.ports.inbound.user.query;
 
-import com.microservices.user.application.dto.UserDto;
+import com.microservices.user.domain.model.User;
 
 import java.util.List;
 
 public interface FindAllUsersPort {
-    List<UserDto> findAll();
+    List<User> findAll();
 }

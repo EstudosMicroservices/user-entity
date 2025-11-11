@@ -1,9 +1,7 @@
 package com.microservices.user.infrastructure.config.rabbitmq;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -22,6 +20,15 @@ public class RabbitMQConfig {
     @Bean
     public TopicExchange userRegisteredExchange() {
         return new TopicExchange(USER_REGISTERED_EXCHANGE);
+    }
+
+
+    @Bean
+    public Queue userRegisteredQueue() {
+        return QueueBuilder.durable("user.registered")
+                .withArgument("x-dead-letter-exchange", "user.dead.letter.exchange")
+                .withArgument("x-dead-letter-routing-key", "user.registered.dlq")
+                .build();
     }
 
     @Bean
@@ -48,4 +55,16 @@ public class RabbitMQConfig {
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;
     }
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
+            ConnectionFactory connectionFactory, MessageConverter messageConverter) {
+        var factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(messageConverter);
+        factory.setDefaultRequeueRejected(false);
+        return factory;
+    }
+
+
 }

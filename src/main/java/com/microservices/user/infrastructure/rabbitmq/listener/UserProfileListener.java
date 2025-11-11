@@ -1,6 +1,8 @@
 package com.microservices.user.infrastructure.rabbitmq.listener;
 
 import com.microservices.user.application.events.UserRegisteredEvent;
+import com.microservices.user.application.mappers.EventMapper;
+import com.microservices.user.domain.command.CreateUserCommand;
 import com.microservices.user.domain.ports.inbound.user.store.CreateUserFromEventPort;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,11 +16,13 @@ public class UserProfileListener {
 
     private static final Logger log = LoggerFactory.getLogger(UserProfileListener.class);
     private final CreateUserFromEventPort createProfileFromEvent;
+    private final EventMapper eventMapper;
 
     @RabbitListener(queues = "user.profile.queue")
     public void handleUserRegisteredEvent(UserRegisteredEvent event) {
         log.info("[UserProfileListener] Received UserRegisteredEvent with id: {}", event.getId());
-        createProfileFromEvent.createUserFromEvent(event);
+        CreateUserCommand domainEvent = eventMapper.toDomain(event);
+        createProfileFromEvent.createUserFromEvent(domainEvent);
     }
 
 }

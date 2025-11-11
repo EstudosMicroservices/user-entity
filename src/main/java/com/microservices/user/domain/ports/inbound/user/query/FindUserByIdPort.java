@@ -1,7 +1,7 @@
 package com.microservices.user.domain.ports.inbound.user.query;
 
-import com.microservices.user.application.dto.UserDto;
+import com.microservices.user.domain.model.User;
 
 public interface FindUserByIdPort {
-    UserDto findById(String id);
+    User findById(String id);
 }

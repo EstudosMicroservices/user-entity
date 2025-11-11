@@ -1,8 +1,8 @@
 package com.microservices.user.domain.ports.inbound.user.store;
 
-import com.microservices.user.application.events.UserRegisteredEvent;
+import com.microservices.user.domain.command.CreateUserCommand;
 
 public interface CreateUserFromEventPort {
 
-    void createUserFromEvent(UserRegisteredEvent event);
+    void createUserFromEvent(CreateUserCommand userCommand);
 }

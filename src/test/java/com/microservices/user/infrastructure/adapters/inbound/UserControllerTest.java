@@ -1,6 +1,8 @@
 package com.microservices.user.infrastructure.adapters.inbound;
 
 import com.microservices.user.application.dto.UserDto;
+import com.microservices.user.application.mappers.UserMapper;
+import com.microservices.user.domain.model.User;
 import com.microservices.user.domain.ports.inbound.user.query.FindAllUsersPort;
 import com.microservices.user.domain.ports.inbound.user.query.FindUserByEmailPort;
 import com.microservices.user.domain.ports.inbound.user.query.FindUserByIdPort;
@@ -34,18 +36,25 @@ class UserControllerTest {
     @Mock
     private FindUserByEmailPort findUserByEmailPort;
 
+    @Mock
+    private UserMapper userMapper;
+
     @InjectMocks
     private UserController userController;
 
+
+    private User user;
     private UserDto userDto;
     @BeforeEach
     void setup() {
+        this.user = UserTestFactory.createUser();
         this.userDto = UserTestFactory.createUserDto();
     }
 
     @Test
     void findAllTest() {
-        when(findAllUsersPort.findAll()).thenReturn(List.of(userDto));
+        when(findAllUsersPort.findAll()).thenReturn(List.of(user));
+        when(userMapper.toListDto(List.of(user))).thenReturn(List.of(userDto));
 
         ResponseEntity<List<UserDto>> result = userController.findAll();
 
@@ -54,11 +63,13 @@ class UserControllerTest {
         assertThat(result.getBody().getFirst().email()).isEqualTo(userDto.email());
         assertEquals(HttpStatus.OK, result.getStatusCode());
         verify(findAllUsersPort).findAll();
+        verify(userMapper).toListDto(List.of(user));
     }
 
     @Test
     void findUserByIdTest() {
-        when(findUserByIdPort.findById(userDto.id())).thenReturn(userDto);
+        when(findUserByIdPort.findById(userDto.id())).thenReturn(user);
+        when(userMapper.toDto(user)).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findById(userDto.id());
 
@@ -72,7 +83,8 @@ class UserControllerTest {
 
     @Test
     void findUserByEmailTest() {
-        when(findUserByEmailPort.findByEmail(userDto.email())).thenReturn(userDto);
+        when(findUserByEmailPort.findByEmail(userDto.email())).thenReturn(user);
+        when(userMapper.toDto(user)).thenReturn(userDto);
 
         ResponseEntity<UserDto> result = userController.findByEmail(userDto.email());
 

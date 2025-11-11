@@ -51,11 +51,11 @@ class FindUserByIdImplIntegrationTest extends AbstractIntegrationTest {
         assertNotNull(createdUser);
         assertNotNull(createdUser.getId());
 
-        UserDto userFound = findUserByIdPort.findById(createdUser.getId());
+        User userFound = findUserByIdPort.findById (createdUser.getId());
 
         assertNotNull(userFound);
-        assertEquals(createdUser.getId(), userFound.id());
-        assertEquals(createdUser.getEmail(), userFound.email());
+        assertEquals(createdUser.getId(), userFound.getId());
+        assertEquals(createdUser.getEmail(), userFound.getEmail());
     }
 
     @Test
